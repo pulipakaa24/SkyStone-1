@@ -98,12 +98,12 @@ public class TestTeleop extends OpMode{
         }
         if (gamepad1.dpad_up || gamepad2.dpad_up)
         {
-            llpower = .5;
-            rlpower = .5;
+            llpower = .5;//these two need to be opposite, as they are facing against each other. This may bring the lift down, rather than up
+            rlpower = -.5;
         }
         else if (gamepad1.dpad_down || gamepad2.dpad_down)
         {
-            llpower = -.5;
+            llpower = .5;
             rlpower = -.5;
 
         }

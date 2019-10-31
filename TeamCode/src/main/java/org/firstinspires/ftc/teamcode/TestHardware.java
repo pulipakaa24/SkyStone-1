@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,6 +21,11 @@ public class TestHardware
     public CRServo servoTwist;
     public CRServo servoGrab;
     public CRServo servoDrag;
+
+    ColorSensor sensorColor = null;
+    ColorSensor sensorColor2 = null;
+
+    Rev2mDistanceSensor distSensor = null;
 
 
 
@@ -76,7 +82,10 @@ public class TestHardware
         leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        sensorColor = hwMap.get(ColorSensor.class, "sensorColor");
+        sensorColor2 = hwMap.get(ColorSensor.class, "sensorColor2");
 
+        distSensor = hwMap.get(Rev2mDistanceSensor.class, "distanceSensor");
 
     }
 }
