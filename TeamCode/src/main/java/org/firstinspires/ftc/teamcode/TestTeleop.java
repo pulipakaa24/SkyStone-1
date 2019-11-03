@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="TestTeleop", group="Zippo")
-//@Disabledj
+//@Disabled
 
 //THE KEY BELOW IS FOR USING IMAGE RECOGNITION -PULKIT
 //AT5CUvf/////AAAAGaBn6TlejU79iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
@@ -98,12 +98,12 @@ public class TestTeleop extends OpMode{
         }
         if (gamepad1.dpad_up || gamepad2.dpad_up)
         {
-            llpower = .5;//these two need to be opposite, as they are facing against each other. This may bring the lift down, rather than up
-            rlpower = -.5;
+            llpower = .5;
+            rlpower = .5;
         }
         else if (gamepad1.dpad_down || gamepad2.dpad_down)
         {
-            llpower = .5;
+            llpower = -.5;
             rlpower = -.5;
 
         }
@@ -141,11 +141,11 @@ public class TestTeleop extends OpMode{
         }
         if (gamepad1.x ||gamepad2.x)
         {
-            sdpower = .3;
+            sdpower = .5;
         }
         else if(gamepad1.y||gamepad2.y)
         {
-            sdpower = -.3;
+            sdpower = -.5;
         }
         else
         {

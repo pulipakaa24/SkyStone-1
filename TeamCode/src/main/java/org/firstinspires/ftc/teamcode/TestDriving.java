@@ -53,8 +53,8 @@ public class TestDriving extends LinearOpMode {
     String xyz = "z";
 
 
-    static final double COUNTS_PER_MOTOR_REV = 288; //216
-    static final double DRIVE_GEAR_REDUCTION = 0.5;     // This is < 1.0 if geared UP
+    static final double COUNTS_PER_MOTOR_REV = 537; //216
+    static final double DRIVE_GEAR_REDUCTION = 0.6666;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.4;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
