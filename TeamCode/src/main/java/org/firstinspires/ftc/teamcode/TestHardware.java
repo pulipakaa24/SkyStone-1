@@ -18,9 +18,9 @@ public class TestHardware
     public DcMotor motorBack;
     public DcMotor leftLift;
     public DcMotor rightLift;
-    public CRServo servoTwist;
-    public CRServo servoGrab;
-    public CRServo servoDrag;
+    public Servo servoTwist;
+    public Servo servoGrab;
+    public Servo servoDrag;
 
     ColorSensor sensorColor = null;
     ColorSensor sensorColor2 = null;
@@ -45,9 +45,9 @@ public class TestHardware
         motorFront  = hwMap.get(DcMotor.class, "motorFront");
         leftLift  = hwMap.get(DcMotor.class, "leftLift");
         rightLift  = hwMap.get(DcMotor.class, "rightLift");
-        servoTwist = hwMap.get(CRServo.class, "servoTwist");
-        servoGrab = hwMap.get(CRServo.class, "servoGrab");
-        servoDrag = hwMap.get(CRServo.class, "servoDrag");
+        servoTwist = hwMap.get(Servo.class, "servoTwist");
+        servoGrab = hwMap.get(Servo.class, "servoGrab");
+        servoDrag = hwMap.get(Servo.class, "servoDrag");
 
 
 
@@ -71,9 +71,9 @@ public class TestHardware
         leftLift.setPower(0);
         rightLift.setPower(0);
 
-        servoTwist.setPower(0);
-        servoGrab.setPower(0);
-        servoDrag.setPower(0);
+        servoTwist.setPosition(0);
+        servoGrab.setPosition(0);
+        servoDrag.setPosition(0);
         // Here we set all motors to run with encoders.
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

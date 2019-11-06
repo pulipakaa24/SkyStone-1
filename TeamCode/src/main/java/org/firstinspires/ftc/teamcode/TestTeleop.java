@@ -117,39 +117,29 @@ public class TestTeleop extends OpMode{
 
         if (gamepad1.left_bumper ||gamepad2.left_bumper)
         {
-            stpower = .3;
+            robot.servoTwist.setPosition(90);
         }
         else if(gamepad1.right_bumper||gamepad2.right_bumper)
         {
-            stpower = -.3;
+            robot.servoTwist.setPosition(0);
         }
-        else
-        {
-            stpower = 0;
-        }
+
         if (gamepad1.a ||gamepad2.a)
         {
-            sgpower = .3;
+            robot.servoGrab.setPosition(0);
         }
         else if(gamepad1.b||gamepad2.b)
         {
-            sgpower = -.3;
+            robot.servoGrab.setPosition(90);
         }
-        else
-        {
-            sgpower = 0;
-        }
+
         if (gamepad1.x ||gamepad2.x)
         {
-            sdpower = .5;
+            robot.servoDrag.setPosition(0);
         }
         else if(gamepad1.y||gamepad2.y)
         {
-            sdpower = -.5;
-        }
-        else
-        {
-            sdpower = 0;
+            robot.servoDrag.setPosition(90);
         }
 
 
@@ -203,9 +193,7 @@ public class TestTeleop extends OpMode{
         robot.motorBack.setPower(lPower);
         robot.leftLift.setPower(llpower);
         robot.rightLift.setPower(rlpower);
-        robot.servoDrag.setPower(sdpower);
-        robot.servoGrab.setPower(sgpower);
-        robot.servoTwist.setPower(stpower);
+        
 
 
 
