@@ -40,14 +40,31 @@ public class TestHardware
 
         // Here we name the motors.
         motorLeft  = hwMap.get(DcMotor.class, "motorLeft");
+
+
         motorRight = hwMap.get(DcMotor.class, "motorRight");
+
+
         motorBack  = hwMap.get(DcMotor.class, "motorBack");
+
+
         motorFront  = hwMap.get(DcMotor.class, "motorFront");
+
+
         leftLift  = hwMap.get(DcMotor.class, "leftLift");
+
+
         rightLift  = hwMap.get(DcMotor.class, "rightLift");
+
+
         servoTwist = hwMap.get(Servo.class, "servoTwist");
+
+
         servoGrab = hwMap.get(Servo.class, "servoGrab");
+        //
+
         servoDrag = hwMap.get(Servo.class, "servoDrag");
+        //90 is up | 0 is down
 
 
 
@@ -71,9 +88,9 @@ public class TestHardware
         leftLift.setPower(0);
         rightLift.setPower(0);
 
-        servoTwist.setPosition(0);
-        servoGrab.setPosition(0);
-        servoDrag.setPosition(0);
+        servoTwist.setPosition(90);
+        servoGrab.setPosition(90);
+        servoDrag.setPosition(90);
         // Here we set all motors to run with encoders.
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
