@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name="TestTeleop", group="Zippo")
 //@Disabled
 
@@ -209,6 +211,10 @@ public class TestTeleop extends OpMode{
 //        telemetry.addData("Box intake Power", boxPower);
 //        telemetry.addData("Right Distance", robot.sensorRangeR.getDistance(DistanceUnit.INCH));
 //        telemetry.addData("Left Distance", robot.sensorRangeL.getDistance(DistanceUnit.INCH));
+        telemetry.addData("Left Color", robot.sensorColor.alpha());
+        telemetry.addData("Right Color", robot.sensorColor2.alpha());
+        telemetry.addData("Dist", robot.distSensor.getDistance(DistanceUnit.INCH));
+        telemetry.addData("avg", (robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2);
     }
 
 //--------------------------------- FUNCTIONS ----------------------------------------------------

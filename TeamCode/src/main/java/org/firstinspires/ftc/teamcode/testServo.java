@@ -10,7 +10,7 @@ public class testServo extends TestDriving {
         super.runOpMode();
 
         robot.servoDrag.setPosition(0);
-        robot.servoDrag.setPosition(944d0);
+        robot.servoDrag.setPosition(90);
 
         telemetry.addData("Drag finished", "");
         telemetry.update();
