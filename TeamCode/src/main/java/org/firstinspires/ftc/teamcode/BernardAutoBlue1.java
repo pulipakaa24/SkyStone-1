@@ -12,7 +12,7 @@ public class BernardAutoBlue1 extends TestDriving {
         int moveAmount = 0;
         super.runOpMode();
         robot.servoTwist.setPosition(0);
-        robot.servoGrab.setPosition(0);
+        robot.servoGrab.setPosition(-45);
         robot.servoLatch.setPosition(1);
         encoderDrive(.3,-30,-30,20);
         while (robot.distSensor.getDistance(DistanceUnit.INCH) > 4)
@@ -25,6 +25,7 @@ public class BernardAutoBlue1 extends TestDriving {
         sleep(100);
         while (!found)
         {
+            sleep(1000);
             if (isSkystone())
             {
                 break;
