@@ -61,6 +61,8 @@ public class TestDriving extends LinearOpMode {
     static final double DRIVE_SPEED = 1;
     static final double TURN_SPEED = 0.5;
     BNO055IMU imu;
+    Orientation             lastAngles = new Orientation();
+    double                  globalAngle, power = .30, correction;
 
     @Override
     public void runOpMode() {
@@ -128,6 +130,7 @@ public class TestDriving extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.motorLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.motorRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            double correction = checkDirection();
             robot.motorLeft.setTargetPosition(newLeftTarget);
             robot.motorRight.setTargetPosition(newRightTarget);
 
@@ -137,8 +140,8 @@ public class TestDriving extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.motorLeft.setPower(Math.abs(speed));
-            robot.motorRight.setPower(Math.abs(speed));
+            robot.motorLeft.setPower(Math.abs(speed) - correction);
+            robot.motorRight.setPower(Math.abs(speed) + correction);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -385,6 +388,34 @@ public class TestDriving extends LinearOpMode {
             robot.motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
+    }
+    private double checkDirection()
+    {
+        double correction, angle, gain = .10;
+        angle = getAngle();
+        if (angle == 0)
+            correction =0;
+        else
+            correction = -angle;
+        correction = correction * gain;
+        return correction;
+    }
+    private double getAngle()
+    {
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+
+        return globalAngle;
     }
 
     public void oldGyroDrive(double target, String xyz, double power, double timeoutS)
