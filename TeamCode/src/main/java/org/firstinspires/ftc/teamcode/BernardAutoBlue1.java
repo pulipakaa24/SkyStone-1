@@ -18,6 +18,7 @@ public class BernardAutoBlue1 extends TestDriving {
         while (robot.distSensor.getDistance(DistanceUnit.INCH) > 4.5)
         {
             normalDrive(-.2,-.2);
+            telemetry.addData("dist", robot.distSensor.getDistance(DistanceUnit.INCH));
             //encoderDrive(1, -3, -3, .7);//I'm not sure if negative is forward or backward
         }
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
