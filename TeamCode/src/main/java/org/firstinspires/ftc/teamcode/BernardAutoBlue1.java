@@ -13,18 +13,20 @@ public class BernardAutoBlue1 extends TestDriving {
         super.runOpMode();
         robot.servoTwist.setPosition(0);
         robot.servoGrab.setPosition(0);
-        encoderDrive(1, -22, -22, 5);
+        robot.servoLatch.setPosition(1);
+        encoderDrive(.8, -19, -19, 5);
 
-        while (robot.distSensor.getDistance(DistanceUnit.INCH) > 2)
+        while (robot.distSensor.getDistance(DistanceUnit.INCH) > 3)
         {
-            encoderDrive(1, -7, -7, .7);//I'm not sure if negative is forward or backward
+            encoderDrive(1, -1, -1, .7);//I'm not sure if negative is forward or backward
         }
         robot.servoDrag.setPosition(1);
         while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150)
         {
-            latEncoderDrive(.3, 2, 2, 1);
+            latEncoderDrive(.0001, 2, 2, 1);
             //telemetry.addData("Yellow")
             moveAmount++;
+            sleep(300);
         }
         //while(robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15)//this tests if a block is yellow. If you run this where there is no block, it'll likely assume that it is a skystone
         robot.servoGrab.setPosition(90);

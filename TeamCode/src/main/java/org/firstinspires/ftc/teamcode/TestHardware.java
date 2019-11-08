@@ -21,6 +21,7 @@ public class TestHardware
     public Servo servoTwist;
     public Servo servoGrab;
     public Servo servoDrag;
+    public Servo servoLatch;
 
     ColorSensor sensorColor = null;
     ColorSensor sensorColor2 = null;
@@ -64,6 +65,8 @@ public class TestHardware
         //
 
         servoDrag = hwMap.get(Servo.class, "servoDrag");
+
+        servoLatch = hwMap.get(Servo.class, "servoLatch");
         //90 is up | 0 is down
 
 
@@ -88,9 +91,10 @@ public class TestHardware
         leftLift.setPower(0);
         rightLift.setPower(0);
 
-        servoTwist.setPosition(90);
-        servoGrab.setPosition(90);
-        servoDrag.setPosition(90);
+        servoTwist.setPosition(0);
+        servoGrab.setPosition(100);
+        servoDrag.setPosition(.9);
+        servoLatch.setPosition(0);
         // Here we set all motors to run with encoders.
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

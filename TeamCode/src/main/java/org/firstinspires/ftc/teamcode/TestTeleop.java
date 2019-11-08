@@ -119,7 +119,7 @@ public class TestTeleop extends OpMode{
 
         if (gamepad1.left_bumper ||gamepad2.left_bumper)
         {
-            robot.servoTwist.setPosition(90);
+            robot.servoTwist.setPosition(.5);
         }
         else if(gamepad1.right_bumper||gamepad2.right_bumper)
         {
