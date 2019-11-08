@@ -238,10 +238,10 @@ public class TestDriving extends LinearOpMode {
     public void normalDrive(double lpower, double rpower) {
 
         if (opModeIsActive()) {
-            robot.motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorLeft.setPower(lpower);
+            robot.motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.motorRight.setPower(rpower);
+            robot.motorLeft.setPower(lpower);
         }
     }
 

@@ -14,19 +14,19 @@ public class BernardAutoBlue1 extends TestDriving {
         robot.servoTwist.setPosition(0);
         robot.servoGrab.setPosition(0);
         robot.servoLatch.setPosition(1);
-        encoderDrive(.3,-12,-12,20);
+        encoderDrive(.3,-30,-30,20);
         while (robot.distSensor.getDistance(DistanceUnit.INCH) > 4)
         {
             normalDrive(-.2,-.2);
             //encoderDrive(1, -3, -3, .7);//I'm not sure if negative is forward or backward
         }
-        robot.servoDrag.setPosition(1);
-        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150)
+        //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
+        while (robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15 && robot.sensorColor2.red() > robot.sensorColor2.blue() + 15 && robot.sensorColor2.green() > robot.sensorColor2.blue() + 15)
         {
             //latEncoderDrive(.0001, 2, 2, 1);
             robot.motorBack.setPower(.3);
             robot.motorFront.setPower(.3);
-            //telemetry.addData("Yellow")
+            telemetry.addData("Color:", "Yellow");
             moveAmount++;
             sleep(300);
         }
@@ -34,7 +34,7 @@ public class BernardAutoBlue1 extends TestDriving {
         robot.motorFront.setPower(0);
         //while(robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15)//this tests if a block is yellow. If you run this where there is no block, it'll likely assume that it is a skystone
         robot.servoGrab.setPosition(90);
-        //telemetry.addData("skystone")
+        telemetry.addData("Color:","skystone");
         encoderDrive(1, 3,  3, 5);
         gyroDrive(-90, "z", 1, 5, false);
 
