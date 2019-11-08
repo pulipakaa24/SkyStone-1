@@ -25,6 +25,7 @@ public class TestTeleop extends OpMode{
     private double stpower = 0;//servo twist
     private double sgpower = 0;//servo grab
     private double sdpower = 0;//servo drag
+    public double dragPower = .9;
 
 
 
@@ -49,34 +50,22 @@ public class TestTeleop extends OpMode{
 //        rPower = gamepad1.right_stick_y;
 //        fPower = -gamepad1.right_stick_x;
 //        bPower = -gamepad1.right_stick_x;
-        if (gamepad1.left_stick_y != 0)
+        if (gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < 0.1)
         {
             fPower = gamepad1.left_stick_y;
             bPower = gamepad1.left_stick_y;
         }
-        else if (gamepad2.left_stick_x != 0)
-        {
-            fPower = gamepad2.left_stick_x;
-            bPower = gamepad2.left_stick_x;
-        }
-
         else
         {
             fPower = 0;
             bPower = 0;
         }
-        if (gamepad1.left_stick_x != 0)
+
+        if (gamepad1.left_stick_x < 0.1 || gamepad1.left_stick_x > .1)
         {
             rPower = gamepad1.left_stick_x;
             lPower = gamepad1.left_stick_x;
         }
-        else if (gamepad2.left_stick_x != 0)
-        {
-            rPower = gamepad2.left_stick_x;
-            lPower = gamepad2.left_stick_x;
-        }
-
-
         else
         {
             rPower = 0;
@@ -84,26 +73,26 @@ public class TestTeleop extends OpMode{
         }
 
         //rotate
-        if(gamepad1.right_stick_x > 0 || gamepad2.right_stick_x > 0)
+        if(gamepad1.right_stick_x > 0.1 )
         {
             lPower = -.2; //lpower used to be 1
             rPower = .2; //rpower used to be -1
             fPower = -.2;
             bPower = .2;
         }
-        else if(gamepad1.right_stick_x < 0 || gamepad2.right_stick_x < 0)
+        else if(gamepad1.right_stick_x < -0.1)
         {
             lPower = .2; //lpower used to be -1
             rPower = -.2; //used to be 1
             fPower = .2;
             bPower = -.2;
         }
-        if (gamepad1.dpad_up || gamepad2.dpad_up)
+        if (gamepad2.dpad_up)
         {
             llpower = .5;
             rlpower = .5;
         }
-        else if (gamepad1.dpad_down || gamepad2.dpad_down)
+        else if (gamepad2.dpad_down)
         {
             llpower = -.5;
             rlpower = -.5;
@@ -117,32 +106,41 @@ public class TestTeleop extends OpMode{
 
         }
 
-        if (gamepad1.left_bumper ||gamepad2.left_bumper)
+        if (gamepad2.left_bumper)
         {
             robot.servoTwist.setPosition(.5);
         }
-        else if(gamepad1.right_bumper||gamepad2.right_bumper)
+        else if(gamepad2.right_bumper)
         {
             robot.servoTwist.setPosition(0);
         }
 
-        if (gamepad1.a ||gamepad2.a)
+        if (gamepad2.a)
         {
             robot.servoGrab.setPosition(0);
         }
-        else if(gamepad1.b||gamepad2.b)
+        else if(gamepad2.b)
         {
             robot.servoGrab.setPosition(90);
         }
 
         if (gamepad1.x ||gamepad2.x)
         {
-            robot.servoDrag.setPosition(0);
+            dragPower += 10;
         }
         else if(gamepad1.y||gamepad2.y)
         {
-            robot.servoDrag.setPosition(90);
+            dragPower -= 10;
         }
+        if (dragPower < 0)
+        {
+            dragPower = 0;
+        }
+        if (dragPower > 90)
+        {
+            dragPower = 90;
+        }
+        robot.servoDrag.setPosition(dragPower);
 
 
 
