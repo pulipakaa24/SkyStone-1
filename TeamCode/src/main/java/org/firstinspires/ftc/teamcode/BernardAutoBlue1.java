@@ -15,7 +15,7 @@ public class BernardAutoBlue1 extends TestDriving {
         robot.servoGrab.setPosition(-45);
         robot.servoLatch.setPosition(1);
         encoderDrive(.3,-30,-30,20);
-        while (robot.distSensor.getDistance(DistanceUnit.INCH) > 4)
+        while (robot.distSensor.getDistance(DistanceUnit.INCH) > 4.5)
         {
             normalDrive(-.2,-.2);
             //encoderDrive(1, -3, -3, .7);//I'm not sure if negative is forward or backward
@@ -23,18 +23,10 @@ public class BernardAutoBlue1 extends TestDriving {
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
         boolean found = false;
         sleep(100);
-        while (!found)
+        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 80)
         {
-            sleep(1000);
-            if (isSkystone())
-            {
-                break;
-            }
-            else
-                {
-                    robot.motorBack.setPower(.3);
-                    robot.motorFront.setPower(.3);
-                }
+            robot.motorBack.setPower(.3);
+            robot.motorFront.setPower(.3);
             moveAmount++;
             sleep(300);
         }
