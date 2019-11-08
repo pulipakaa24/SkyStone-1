@@ -21,12 +21,19 @@ public class BernardAutoBlue1 extends TestDriving {
             //encoderDrive(1, -3, -3, .7);//I'm not sure if negative is forward or backward
         }
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
-        while (robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15 && robot.sensorColor2.red() > robot.sensorColor2.blue() + 15 && robot.sensorColor2.green() > robot.sensorColor2.blue() + 15)
+        boolean found = false;
+        sleep(100);
+        while (!found)
         {
-            //latEncoderDrive(.0001, 2, 2, 1);
-            robot.motorBack.setPower(.3);
-            robot.motorFront.setPower(.3);
-            telemetry.addData("Color:", "Yellow");
+            if (isSkystone())
+            {
+                break;
+            }
+            else
+                {
+                    robot.motorBack.setPower(.3);
+                    robot.motorFront.setPower(.3);
+                }
             moveAmount++;
             sleep(300);
         }

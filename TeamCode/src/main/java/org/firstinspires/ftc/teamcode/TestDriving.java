@@ -245,6 +245,37 @@ public class TestDriving extends LinearOpMode {
         }
     }
 
+    public boolean isSkystone()
+    {
+        sleep(100);
+        if (robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15)
+        {
+            telemetry.addData("Left Block Color", "Yellow");
+
+        }
+        else
+            telemetry.addData("Left Block Color", "Not Yellow");
+            boolean leftBlack = true;
+
+        if (robot.sensorColor2.red() > robot.sensorColor2.blue() + 15 && robot.sensorColor2.green() > robot.sensorColor2.blue() + 15)
+        {
+            telemetry.addData("Right Block Color", "Yellow");
+        }
+        else
+            telemetry.addData("Right Block Color", "Not Yellow");
+            boolean rightBlack = true;
+        telemetry.update();
+
+        if (rightBlack && leftBlack)
+        {
+            return true;
+        }
+        else
+            {
+                return false;
+            }
+    }
+
     public double originalAngle;
 
     public void gyroDrive(double target, String xyz, double topPower, double timeoutS, boolean isCorrection) {
