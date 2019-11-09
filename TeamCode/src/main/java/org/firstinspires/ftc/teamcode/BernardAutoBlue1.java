@@ -28,6 +28,7 @@ public class BernardAutoBlue1 extends TestDriving {
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
         boolean found = false;
         sleep(500);
+        /*
         while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 80)
         {
             robot.motorBack.setPower(.06);
@@ -41,6 +42,8 @@ public class BernardAutoBlue1 extends TestDriving {
             sleep(200);
 
         }
+
+
         // sysdel(naren.exe)
         robot.motorFront.setPower(0);
         robot.motorFront.setPower(0);
@@ -48,11 +51,14 @@ public class BernardAutoBlue1 extends TestDriving {
         encoderDrive(1,-2,-2,5);
         robot.servoGrab.setPosition(1);
         telemetry.addData("Color:","skystone");
-        encoderDrive(1, 3,  3, 5);
+        */
+        encoderDrive(1, 2,  2, 5);
+        robot.servoGrab.setPosition(1);
+        encoderDrive(1, -3,  -3, 5);
         gyroDrive(105, "z", -1, 3, false);
 
         encoderDrive(.8, -60, -60, 10);
-        encoderDrive(1, -50, -50, 10);
+        encoderDrive(1, -40, -40, 10);
         sleep(500);;
 
         robot.leftLift.setPower(.5);
@@ -60,7 +66,6 @@ public class BernardAutoBlue1 extends TestDriving {
         robot.servoGrab.setPosition(0);
         encoderDrive(1,-3,-3,3);
         encoderDrive(1,50,50,5);
-            latEncoderDrive(1,1,1,1);
 
 //        gyroDrive(-140, "z", 1, 2, false);
 //        encoderDrive(.6, -40, -40, 10);

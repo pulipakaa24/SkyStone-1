@@ -28,22 +28,22 @@ public class BernardAutoRed1 extends TestDriving {
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
         boolean found = false;
         sleep(500);
-        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 60)
-        {
-            robot.motorBack.setPower(-.06);
-            robot.motorFront.setPower(-.09);
-            moveAmount++;
-            sleep(1000);
-            robot.motorFront.setPower(0);
-            robot.motorBack.setPower(0);
-            telemetry.addData("avg",((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2));
-            telemetry.update();
-            sleep(200);
-
-        }
-        robot.motorFront.setPower(0);
-        robot.motorFront.setPower(0);
-        //while(robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15)//this tests if a block is yellow. If you run this where there is no block, it'll likely assume that it is a skystone
+//        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 80)
+//        {
+//            robot.motorBack.setPower(-.06);
+//            robot.motorFront.setPower(-.09);
+//            moveAmount++;
+//            sleep(1000);
+//            robot.motorFront.setPower(0);
+//            robot.motorBack.setPower(0);
+//            telemetry.addData("avg",((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2));
+//            telemetry.update();
+//            sleep(200);
+//
+//        }
+//        robot.motorFront.setPower(0);
+//        robot.motorFront.setPower(0);
+//        //while(robot.sensorColor.red() > robot.sensorColor.blue() + 15 && robot.sensorColor.green() > robot.sensorColor.blue() + 15)//this tests if a block is yellow. If you run this where there is no block, it'll likely assume that it is a skystone
         encoderDrive(1,-2,-2,5);
         robot.servoGrab.setPosition(1);
         telemetry.addData("Color:","skystone");

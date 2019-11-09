@@ -75,17 +75,17 @@ public class TestTeleop extends OpMode{
         //rotate
         if(gamepad1.right_stick_x > 0.1 )
         {
-            lPower = -.05; //lpower used to be 1
-            rPower = .05; //rpower used to be -1
-            fPower = -.05;
-            bPower = .05;
+            lPower = -.075; //lpower used to be 1
+            rPower = .075; //rpower used to be -1
+            fPower = -.075;
+            bPower = .075;
         }
         else if(gamepad1.right_stick_x < -0.1)
         {
-            lPower = .05; //lpower used to be -1
-            rPower = -.05; //used to be 1
-            fPower = .05;
-            bPower = -.05;
+            lPower = .075; //lpower used to be -1
+            rPower = -.075; //used to be 1
+            fPower = .075;
+            bPower = -.075;
         }
         if (gamepad2.dpad_up)
         {
@@ -126,11 +126,11 @@ public class TestTeleop extends OpMode{
 
         if (gamepad1.x ||gamepad2.x)
         {
-            dragPower += 10;
+            dragPower += 1;
         }
         else if(gamepad1.y||gamepad2.y)
         {
-            dragPower -= 10;
+            dragPower -= 1;
         }
         if (dragPower < 0)
         {
