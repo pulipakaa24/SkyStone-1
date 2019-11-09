@@ -52,8 +52,8 @@ public class TestTeleop extends OpMode{
 //        bPower = -gamepad1.right_stick_x;
         if (gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < 0.1)
         {
-            fPower = gamepad1.left_stick_y;
-            bPower = gamepad1.left_stick_y;
+            fPower = gamepad1.left_stick_y * .3;
+            bPower = gamepad1.left_stick_y * .3;
         }
         else
         {
@@ -63,8 +63,8 @@ public class TestTeleop extends OpMode{
 
         if (gamepad1.left_stick_x < 0.1 || gamepad1.left_stick_x > .1)
         {
-            rPower = gamepad1.left_stick_x;
-            lPower = gamepad1.left_stick_x;
+            rPower = gamepad1.left_stick_x * .3;
+            lPower = gamepad1.left_stick_x * .3;
         }
         else
         {
@@ -75,17 +75,17 @@ public class TestTeleop extends OpMode{
         //rotate
         if(gamepad1.right_stick_x > 0.1 )
         {
-            lPower = -.2; //lpower used to be 1
-            rPower = .2; //rpower used to be -1
-            fPower = -.2;
-            bPower = .2;
+            lPower = -.05; //lpower used to be 1
+            rPower = .05; //rpower used to be -1
+            fPower = -.05;
+            bPower = .05;
         }
         else if(gamepad1.right_stick_x < -0.1)
         {
-            lPower = .2; //lpower used to be -1
-            rPower = -.2; //used to be 1
-            fPower = .2;
-            bPower = -.2;
+            lPower = .05; //lpower used to be -1
+            rPower = -.05; //used to be 1
+            fPower = .05;
+            bPower = -.05;
         }
         if (gamepad2.dpad_up)
         {
@@ -177,12 +177,12 @@ public class TestTeleop extends OpMode{
 
 //      SCALING POWERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-        if(gamepad1.right_bumper)
+        if(gamepad1.right_trigger>0)
         {
-            lPower *= 0.3;
-            rPower *= 0.3;
-            fPower *= 0.3;
-            bPower *= 0.3;
+            lPower *= 3;
+            rPower *= 3;
+            fPower *= 3;
+            bPower *= 3;
         }
 
 //      SETTING POWERS AND POSITIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

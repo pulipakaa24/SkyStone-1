@@ -14,7 +14,7 @@ public class BernardAutoRed1 extends TestDriving {
         robot.servoTwist.setPosition(0.5);
         robot.servoGrab.setPosition(0);
         robot.servoLatch.setPosition(1);
-        sleep(1000);
+        sleep(500);
         gyroDrive(0, "z", -1, 3, false);
         sleep(250);
         encoderDrive(.3,-30,-30,20);
@@ -28,17 +28,17 @@ public class BernardAutoRed1 extends TestDriving {
         //((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2)>150
         boolean found = false;
         sleep(500);
-        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 90)
+        while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 60)
         {
             robot.motorBack.setPower(-.06);
             robot.motorFront.setPower(-.09);
             moveAmount++;
-            sleep(500);
+            sleep(1000);
             robot.motorFront.setPower(0);
             robot.motorBack.setPower(0);
             telemetry.addData("avg",((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2));
             telemetry.update();
-            sleep(500);
+            sleep(200);
 
         }
         robot.motorFront.setPower(0);
@@ -48,16 +48,17 @@ public class BernardAutoRed1 extends TestDriving {
         robot.servoGrab.setPosition(1);
         telemetry.addData("Color:","skystone");
         encoderDrive(1, 3,  3, 5);
-        gyroDrive(105, "z", -1, 3, false);
+        gyroDrive(-105, "z", -1, 3, false);
 
-        encoderDrive(.6, -40, -40, 10);
-        encoderDrive(1, -30, -30, 10);
+        encoderDrive(.8, -60, -60, 10);
+        encoderDrive(1, -40, -40, 10);
         sleep(500);;
 
         robot.leftLift.setPower(.5);
         robot.leftLift.setPower(.5);
         robot.servoGrab.setPosition(0);
         encoderDrive(1,-3,-3,3);
+        encoderDrive(1,50,50,5);
 
 //        gyroDrive(-140, "z", 1, 2, false);
 //        encoderDrive(.6, -40, -40, 10);
