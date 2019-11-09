@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@Autonomous(name="Blue1", group="Bernard")
-public class BernardAutoBlue1 extends TestDriving {
+@Autonomous(name="Red1", group="Bernard")
+public class BernardAutoRed1 extends TestDriving {
     public void runOpMode()
     {
         int moveAmount = 0;
@@ -30,8 +30,8 @@ public class BernardAutoBlue1 extends TestDriving {
         sleep(500);
         while (((robot.sensorColor.alpha() + robot.sensorColor2.alpha())/2) > 90)
         {
-            robot.motorBack.setPower(.06);
-            robot.motorFront.setPower(.09);
+            robot.motorBack.setPower(-.06);
+            robot.motorFront.setPower(-.09);
             moveAmount++;
             sleep(500);
             robot.motorFront.setPower(0);

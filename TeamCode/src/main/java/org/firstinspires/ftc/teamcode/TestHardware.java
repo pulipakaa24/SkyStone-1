@@ -91,7 +91,7 @@ public class TestHardware
         leftLift.setPower(0);
         rightLift.setPower(0);
 
-        servoTwist.setPosition(0);
+        servoTwist.setPosition(0.5);
         servoGrab.setPosition(100);
         servoDrag.setPosition(.9);
         servoLatch.setPosition(0);
