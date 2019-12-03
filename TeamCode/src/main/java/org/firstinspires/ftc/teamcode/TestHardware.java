@@ -12,21 +12,14 @@ public class TestHardware
 {
     // Here we define all of the motors we use.
     // Our robot uses omni-wheels and a four motor drive system.
-    public DcMotor motorLeft;
-    public DcMotor motorRight;
-    public DcMotor motorFront;
-    public DcMotor motorBack;
-    public DcMotor leftLift;
-    public DcMotor rightLift;
-    public Servo servoTwist;
-    public Servo servoGrab;
-    public Servo servoDrag;
-    public Servo servoLatch;
+    public DcMotor motorFrontLeft;
+    public DcMotor motorBackRight;
+    public DcMotor motorBackLeft;
+    public DcMotor motorFrontRight;
+//    public DcMotor leftLift;
+//    public DcMotor rightLift;
 
-    ColorSensor sensorColor = null;
-    ColorSensor sensorColor2 = null;
 
-    Rev2mDistanceSensor distSensor = null;
 
 
 
@@ -40,73 +33,58 @@ public class TestHardware
         hwMap = ahwMap;
 
         // Here we name the motors.
-        motorLeft  = hwMap.get(DcMotor.class, "motorLeft");
+        motorFrontLeft  = hwMap.get(DcMotor.class, "motorFrontLeft");
 
 
-        motorRight = hwMap.get(DcMotor.class, "motorRight");
+        motorBackRight = hwMap.get(DcMotor.class, "motorBackRight");
 
 
-        motorBack  = hwMap.get(DcMotor.class, "motorBack");
+        motorBackLeft  = hwMap.get(DcMotor.class, "motorBackLeft");
 
 
-        motorFront  = hwMap.get(DcMotor.class, "motorFront");
+        motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
 
-        leftLift  = hwMap.get(DcMotor.class, "leftLift");
+//        leftLift  = hwMap.get(DcMotor.class, "leftLift");
+//
+//
+//        rightLift  = hwMap.get(DcMotor.class, "rightLift");
 
 
-        rightLift  = hwMap.get(DcMotor.class, "rightLift");
 
-
-        servoTwist = hwMap.get(Servo.class, "servoTwist");
-
-
-        servoGrab = hwMap.get(Servo.class, "servoGrab");
-        //
-
-        servoDrag = hwMap.get(Servo.class, "servoDrag");
-
-        servoLatch = hwMap.get(Servo.class, "servoLatch");
         //90 is up | 0 is down
 
 
 
         // Here we set the motor directions.
-        motorRight.setDirection(DcMotor.Direction.FORWARD);
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFront.setDirection(DcMotor.Direction.FORWARD);
-        motorBack.setDirection(DcMotor.Direction.REVERSE);
-        leftLift.setDirection(DcMotor.Direction.FORWARD);
-        rightLift.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+//        leftLift.setDirection(DcMotor.Direction.FORWARD);
+//        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
 
 
         // Here we set the servo directions.
 
         // Here we set all motors to zero power for safety.
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-        motorFront.setPower(0);
-        motorBack.setPower(0);
-        leftLift.setPower(0);
-        rightLift.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackRight.setPower(0);
+//        leftLift.setPower(0);
+//        rightLift.setPower(0);
 
-        servoTwist.setPosition(0.5);
-        servoGrab.setPosition(100);
-        servoDrag.setPosition(.9);
-        servoLatch.setPosition(0);
+
         // Here we set all motors to run with encoders.
-        motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        sensorColor = hwMap.get(ColorSensor.class, "sensorColor");
-        sensorColor2 = hwMap.get(ColorSensor.class, "sensorColor2");
-
-        distSensor = hwMap.get(Rev2mDistanceSensor.class, "distanceSensor");
 
     }
 }
