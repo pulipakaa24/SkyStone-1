@@ -41,7 +41,7 @@ public class mecanumTeleOp extends OpMode{
 
     @Override
     public void loop() {
-
+        int dragPower = 0;
 //      MAIN DRIVING CONTROLS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //        lPower = gamepad1.right_stick_y;
 //        rPower = gamepad1.right_stick_y;
@@ -121,7 +121,24 @@ public class mecanumTeleOp extends OpMode{
 //
 //        }
 
+        if (gamepad1.x ||gamepad2.x)
+        {
+            dragPower += 1;
+        }
+        else if(gamepad1.y||gamepad2.y)
+        {
+            dragPower -= 1;
+        }
+        if (dragPower < 0)
+        {
+            dragPower = 0;
+        }
+        if (dragPower > 90)
+        {
+            dragPower = 90;
+        }
 
+        robot.servoDrag.setPosition(dragPower);
 
 
 

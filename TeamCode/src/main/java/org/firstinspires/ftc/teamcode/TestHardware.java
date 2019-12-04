@@ -16,6 +16,7 @@ public class TestHardware
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     public DcMotor motorFrontRight;
+    public Servo servoDrag;
 //    public DcMotor leftLift;
 //    public DcMotor rightLift;
 
@@ -44,7 +45,7 @@ public class TestHardware
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
-
+        servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
 //
 //
@@ -73,6 +74,7 @@ public class TestHardware
         motorBackLeft.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
+        servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
 
