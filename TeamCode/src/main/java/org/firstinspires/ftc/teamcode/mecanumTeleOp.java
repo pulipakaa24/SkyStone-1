@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 @TeleOp(name="MecanumTeleOp", group="Zippo")
 //@Disabled
 
@@ -13,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class mecanumTeleOp extends OpMode{
 
-    TestHardware robot  = new TestHardware();
+    mecanumHardware robot  = new mecanumHardware();
 
     // Create variables for motor power
     private double flPower = 0; //left wheel
