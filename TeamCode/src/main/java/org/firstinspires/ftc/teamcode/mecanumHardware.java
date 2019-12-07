@@ -16,6 +16,7 @@ public class mecanumHardware
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     public DcMotor motorFrontRight;
+    public DcMotor motorLift;
     public Servo servoDrag;
 //    public DcMotor leftLift;
 //    public DcMotor rightLift;
@@ -44,6 +45,8 @@ public class mecanumHardware
 
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
+
+        motorLift = hwMap.get(DcMotor.class,"motorLift");
 
         servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
@@ -74,6 +77,7 @@ public class mecanumHardware
         motorBackLeft.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
+        motorLift.setPower(0);
         servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
@@ -84,6 +88,7 @@ public class mecanumHardware
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

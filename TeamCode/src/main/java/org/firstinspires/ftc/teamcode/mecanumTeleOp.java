@@ -44,7 +44,7 @@ public class mecanumTeleOp extends OpMode{
 //        lPower = gamepad1.right_stick_y;
 //        rPower = gamepad1.right_stick_y;
 //        fPower = -gamepad1.right_stick_x;
-//        bPower = -gamepad1.right_stick_x; 
+//        bPower = -gamepad1.right_stick_x;
         if (gamepad1.left_stick_x > 0.1 || gamepad1.left_stick_x < -0.1)
         {
             flPower = gamepad1.left_stick_x * 2;
