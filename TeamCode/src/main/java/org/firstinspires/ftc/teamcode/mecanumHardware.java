@@ -17,6 +17,7 @@ public class mecanumHardware
     public DcMotor motorBackLeft;
     public DcMotor motorFrontRight;
     public DcMotor motorLift;
+    public Servo servoGrab;
     //public Servo servoDrag;
 //    public DcMotor leftLift;
 //    public DcMotor rightLift;
@@ -58,6 +59,8 @@ public class mecanumHardware
 
         //90 is up | 0 is down
 
+        servoGrab = hwMap.get(Servo.class, "servoGrab");
+
 
 
         // Here we set the motor directions.
@@ -78,6 +81,8 @@ public class mecanumHardware
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
         motorLift.setPower(0);
+
+        servoGrab.setPosition(0.5);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);

@@ -57,6 +57,18 @@ public class mecanumTeleOp extends OpMode{
                 lPower = 0;
             }
 
+        if (gamepad1.x)
+        {
+            robot.servoGrab.setPosition(0);
+        }
+        else if(gamepad1.y)
+        {
+            robot.servoGrab.setPosition(0.9);
+        }
+
+        robot.motorLift.setPower(lPower);
+        //robot.rightLift.setPower(rlpower);
+
 
 
     }
