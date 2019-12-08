@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+
 @TeleOp(name="MecanumTeleOp", group="Zippo")
 //@Disabled
 
@@ -18,8 +19,10 @@ public class mecanumTeleOp extends OpMode{
     private double frPower = 0; //right wheel
     private double blPower = 0; //front power
     private double brPower = 0; //back power
+    private double lPower = 0;
     private boolean scalePower = false;
     private boolean cornerTurn = true;
+    public double drive = 1;
 //    private double llpower = 0; // left lift power
 //    private double rlpower = 0; // right lift power
 
@@ -38,193 +41,43 @@ public class mecanumTeleOp extends OpMode{
     }
 
     @Override
-    public void loop() {
-        int dragPower = 0;
-//      MAIN DRIVING CONTROLS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//        lPower = gamepad1.right_stick_y;
-//        rPower = gamepad1.right_stick_y;
-//        fPower = -gamepad1.right_stick_x;
-//        bPower = -gamepad1.right_stick_x;
-        if (gamepad1.left_stick_x > 0.1 || gamepad1.left_stick_x < -0.1)
+    public void loop()
+    {
+        mecanumMove();
+        if (gamepad1.dpad_up)
         {
-            flPower = gamepad1.left_stick_x * 2;
-            brPower = gamepad1.left_stick_x *2;
-            frPower = gamepad1.left_stick_x *2;
-            blPower = gamepad1.left_stick_x* 2;
+            lPower = 1;
         }
-
-
-        else if (gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2)
+        else if (gamepad1.dpad_down)
         {
-            frPower = gamepad1.left_stick_y * 2;
-            blPower = gamepad1.left_stick_y * 2;
-            flPower = -gamepad1.left_stick_y * 2;
-            brPower = -gamepad1.left_stick_y * 2;
+            lPower = -1;
         }
         else
-        {
-            flPower = 0;
-            brPower = 0;
-            frPower = 0;
-            blPower = 0;
-        }
-
-        //rotate
-
-        if (!cornerTurn) {
-            if (gamepad1.right_stick_x > 0.1) {
-                flPower = -1;
-                brPower = 1;
-                frPower = -1;
-                blPower = 1;
-            } else if (gamepad1.right_stick_x < -0.1) {
-                flPower = 1;
-                brPower = -1;
-                frPower = 1;
-                blPower = -1;
+            {
+                lPower = 0;
             }
-        }
-        else
-        {
-            if (gamepad1.right_stick_x > 0.1) {
-                flPower = -1;
-
-                frPower = -1;
-                blPower = 1;
-            } else if (gamepad1.right_stick_x < -0.1) {
-                flPower = 1;
-                brPower = -1;
-//                frPower = 1;
-                blPower = -1;
-
-            }
-        }
-
-//        if (gamepad2.dpad_up)
-//        {
-//            llpower = .5;
-//            rlpower = .5;
-//        }
-//        else if (gamepad2.dpad_down)
-//        {
-//            llpower = -.5;
-//            rlpower = -.5;
-//
-//        }
-//        else
-//        {
-//            llpower = 0;
-//            rlpower = 0;
-//
-//
-//        }
-
-        if (gamepad1.x ||gamepad2.x)
-        {
-            dragPower += 1;
-        }
-        else if(gamepad1.y||gamepad2.y)
-        {
-            dragPower -= 1;
-        }
-        if (dragPower < 0)
-        {
-            dragPower = 0;
-        }
-        if (dragPower > 90)
-        {
-            dragPower = 90;
-        }
-
-        robot.servoDrag.setPosition(dragPower);
 
 
-
-
-        if(frPower > 1)
-        {
-            frPower = 1;
-        }
-        else if (frPower < -1)
-        {
-            frPower = -1;
-        }
-
-        if(flPower > 1)
-        {
-            flPower = 1;
-        }
-        else if (flPower < -1)
-        {
-            flPower = -1;
-        }
-
-        if(blPower > 1)
-        {
-            blPower = 1;
-        }
-        else if (blPower < -1)
-        {
-            blPower = -1;
-        }
-        if(brPower > 1)
-        {
-            brPower = 1;
-        }
-        else if (brPower < -1)
-        {
-            brPower = -1;
-        }
-
-        if (gamepad1.left_stick_button)
-        {
-            scalePower = !scalePower;
-        }
-        if (gamepad1.right_stick_button)
-        {
-            cornerTurn = !cornerTurn;
-        }
-        //BringDown hook = new BringDown();
-
-
-//      SCALING POWERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-        if(scalePower)
-        {
-            flPower *= .3;
-            brPower *= .3;
-            frPower *= .3;
-            blPower *= .3;
-        }
-
-//      SETTING POWERS AND POSITIONS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-        robot.motorFrontLeft.setPower(flPower);
-        robot.motorBackRight.setPower(brPower);
-        robot.motorFrontRight.setPower(frPower);
-        robot.motorBackLeft.setPower(blPower);
-//        robot.leftLift.setPower(llpower);
-//        robot.rightLift.setPower(rlpower);
-
-
-
-
-
-//      TELEMETRY
-//        telemetry.addData("Left Motor Power", gamepad1.left_stick_y);
-//        telemetry.addData("Right Motor Power", gamepad1.left_stick_y);
-//        telemetry.addData("Front Motor Power", gamepad1.left_stick_x);
-//        telemetry.addData("Back Motor Power", gamepad1.left_stick_x);
-//        telemetry.addData("Hook Motor Power", gamepad2.left_stick_y);
-//        telemetry.addData("Arm Tilt Motor Power", aPowerTIlt);
-//        telemetry.addData("Arm Ext Motor Power", aPowerExt);
-//        telemetry.addData("Box intake Power", boxPower);
-//        telemetry.addData("Right Distance", robot.sensorRangeR.getDistance(DistanceUnit.INCH));
-//        telemetry.addData("Left Distance", robot.sensorRangeL.getDistance(DistanceUnit.INCH));
 
     }
 
 //--------------------------------- FUNCTIONS ----------------------------------------------------
+
+    public void mecanumMove()
+    {
+        double r = Math.hypot(-gamepad1.left_stick_x,gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) -Math.PI/4;
+        double rightX = -gamepad1.right_stick_x;
+        final double v1 = r * Math.cos(robotAngle) + rightX;
+        final double v2 = r * Math.sin(robotAngle) - rightX;
+        final double v3 = r * Math.sin(robotAngle) + rightX;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
+
+        robot.motorFrontLeft.setPower(-drive * v1);
+        robot.motorFrontRight.setPower(-drive * v2);
+        robot.motorBackLeft.setPower(-drive * v3);
+        robot.motorBackRight.setPower(-drive * v4);
+    }
 
     public double scalePower(double power1)
     {
