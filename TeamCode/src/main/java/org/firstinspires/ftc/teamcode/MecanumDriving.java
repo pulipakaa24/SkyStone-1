@@ -118,6 +118,9 @@ public class MecanumDriving extends LinearOpMode {
 
     public void encoderDrive(double inches, String direction, double timeoutS, double topPower) {
 
+
+        telemetry.addData("Running", "");
+        telemetry.update();
         robot.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -174,8 +177,19 @@ public class MecanumDriving extends LinearOpMode {
 
             } else {
                 telemetry.addData("not a valid direction", heading);
+                telemetry.update();
             }
 
+            telemetry.addData("Front Left Current: ", robot.motorFrontLeft.getCurrentPosition());
+            telemetry.addData("Front Right Current: ", robot.motorFrontRight.getCurrentPosition());
+            telemetry.addData("Back Left Current: ", robot.motorBackLeft.getCurrentPosition());
+            telemetry.addData("Back Right Current: ", robot.motorBackRight.getCurrentPosition());
+            telemetry.addData("", "");
+            telemetry.addData("Front Left Target: ", TargetFL);
+            telemetry.addData("Front Right Target: ", TargetFR);
+            telemetry.addData("Back Left Target: ", TargetBL);
+            telemetry.addData("Back Right Target: ", TargetBR);
+            telemetry.update();
 
             // Determine new target position, and pass to motor controller
 

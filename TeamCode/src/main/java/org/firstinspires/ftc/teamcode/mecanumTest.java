@@ -10,7 +10,7 @@ public class mecanumTest extends MecanumDriving{
     public void runOpMode()
     {
         super.runOpMode();
-        encoderDrive(10, "f", 5, 1);
+        encoderDrive(10, "f", 10, 1);
 
 
     }
