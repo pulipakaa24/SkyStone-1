@@ -55,8 +55,9 @@ public class MecanumDriving extends LinearOpMode {
     static final double COUNTS_PER_MOTOR_REV = 537; //216
     static final double DRIVE_GEAR_REDUCTION = 0.6666;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.0;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+//    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+//            (WHEEL_DIAMETER_INCHES * 3.1415);
+static final double COUNTS_PER_INCH = 20;
     static final double DRIVE_SPEED = 1;
     static final double TURN_SPEED = 0.5;
     BNO055IMU imu;
@@ -119,7 +120,14 @@ public class MecanumDriving extends LinearOpMode {
     public void encoderDrive(double inches, String direction, double timeoutS, double topPower) {
 
 
-        telemetry.addData("Running", "");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+
         telemetry.update();
         robot.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -130,7 +138,7 @@ public class MecanumDriving extends LinearOpMode {
         robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        sleep(1000);
         int TargetFL = 0;
         int TargetFR = 0;
         int TargetBL = 0;
@@ -149,27 +157,36 @@ public class MecanumDriving extends LinearOpMode {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
-            if (heading == "f") {
+            if (heading.equals("f")) {
                 TargetFL = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
                 TargetFR = robot.motorFrontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
                 TargetBL = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
                 TargetBR = robot.motorBackRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
+                telemetry.addData("Running", "IN THE THING front");
 
-            } else if (heading == "b") {
+                telemetry.update();
+
+            } else if (heading.equals("b")) {
                 TargetFL = robot.motorFrontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetFR = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetBL = robot.motorBackLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetBR = robot.motorBackRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
 
 
-            } else if (heading == "r") {
+            } else if (heading.equals("r")) {
                 TargetFL = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
                 TargetFR = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetBL = robot.motorBackLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetBR = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH); //weird should be +
 
 
-            } else if (heading == "l") {
+            } else if (heading.equals("l")) {
                 TargetFL = robot.motorFrontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
                 TargetFR = robot.motorFrontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
                 TargetBL = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH); // weird should be +
@@ -191,19 +208,25 @@ public class MecanumDriving extends LinearOpMode {
             telemetry.addData("Back Right Target: ", TargetBR);
             telemetry.update();
 
+            sleep(1000);
+
             // Determine new target position, and pass to motor controller
 
-            robot.motorFrontLeft.setTargetPosition(TargetFL);
-            robot.motorFrontRight.setTargetPosition(TargetFR);
-            robot.motorBackLeft.setTargetPosition(TargetBR);
-            robot.motorBackRight.setTargetPosition(TargetBL);
-
-
-            // Turn On RUN_TO_POSITION
-            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.motorFrontLeft.setTargetPosition(TargetFL);
+//            robot.motorFrontRight.setTargetPosition(TargetFR);
+//            robot.motorBackLeft.setTargetPosition(TargetBL);
+//            robot.motorBackRight.setTargetPosition(TargetBR);
+//
+//
+//            // Turn On RUN_TO_POSITION
+//            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorFrontLeft.setPower(TargetFL);
+            robot.motorFrontRight.setPower(TargetFR);
+            robot.motorBackLeft.setPower(TargetBL);
+            robot.motorBackRight.setPower(TargetBR);
 
 
             // reset the timeout time and start motion.

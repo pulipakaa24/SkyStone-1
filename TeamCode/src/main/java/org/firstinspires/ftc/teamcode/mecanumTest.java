@@ -9,9 +9,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 public class mecanumTest extends MecanumDriving{
     public void runOpMode()
     {
+        telemetry.addData("Running", "pre-reunOp");
+        telemetry.update();
         super.runOpMode();
-        encoderDrive(10, "f", 10, 1);
-
+        telemetry.addData("Running", "Just past runOp");
+        telemetry.update();
+        encoderDrive(2, "f", 2, 3);
+        encoderDrive(10, "b", 10, 1);
+        normalDrive(1, 1);
+        telemetry.addData("Running", "Past the drive");
+        telemetry.update();
 
     }
 }

@@ -19,7 +19,8 @@ public class mecanumTeleOp extends OpMode{
     private double frPower = 0; //right wheel
     private double blPower = 0; //front power
     private double brPower = 0; //back power
-    private double lPower = 0;
+    private double liftRPower = 0;
+    private double liftLPower = 0;
     private boolean scalePower = false;
     private boolean cornerTurn = true;
     public double drive = 1;
@@ -46,15 +47,18 @@ public class mecanumTeleOp extends OpMode{
         mecanumMove();
         if (gamepad1.dpad_up)
         {
-            lPower = 1;
+            liftRPower = 1;
+            liftLPower = -1;
         }
         else if (gamepad1.dpad_down)
         {
-            lPower = -1;
+            liftRPower = -1;
+            liftLPower = 1;
         }
         else
             {
-                lPower = 0;
+                liftRPower = 0;
+                liftLPower = 0;
             }
 
         if (gamepad1.x)
@@ -66,7 +70,9 @@ public class mecanumTeleOp extends OpMode{
             robot.servoGrab.setPosition(0.9);
         }
 
-        robot.motorLift.setPower(lPower);
+        robot.motorLiftR.setPower(liftRPower);
+        robot.motorLiftL.setPower(liftLPower);
+
         //robot.rightLift.setPower(rlpower);
 
 
