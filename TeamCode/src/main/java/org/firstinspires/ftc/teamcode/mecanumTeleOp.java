@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //@Disabled
 
 //THE KEY BELOW IS FOR USING IMAGE RECOGNITION -PULKIT
-//AT5CUvf/////AAAAGaBn6TlejU7]
-//9iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
+//AT5CUvf/////AAAAGaBn6TlejU79iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
 
 public class mecanumTeleOp extends OpMode{
 
@@ -135,7 +134,7 @@ public class mecanumTeleOp extends OpMode{
             dragPower = 90;
         }
 
-        //robot.servoDrag.setPosition(dragPower);
+        robot.servoDrag.setPosition(dragPower);
 
 
 
@@ -202,8 +201,8 @@ public class mecanumTeleOp extends OpMode{
         robot.motorBackRight.setPower(brPower);
         robot.motorFrontRight.setPower(frPower);
         robot.motorBackLeft.setPower(blPower);
-        //robot.leftLift.setPower(llpower);
-        //robot.rightLift.setPower(rlpower);
+        robot.leftLift.setPower(llpower);
+        robot.rightLift.setPower(rlpower);
 
 
 
