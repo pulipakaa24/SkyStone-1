@@ -49,6 +49,7 @@ public class mecanumHardware
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
         motorLiftR = hwMap.get(DcMotor.class,"motorLiftRight");
+
         motorLiftL = hwMap.get(DcMotor.class, "motorLiftLeft");
 
         //servoDrag = hwMap.get(Servo.class, "servoDrag");
@@ -70,6 +71,8 @@ public class mecanumHardware
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
