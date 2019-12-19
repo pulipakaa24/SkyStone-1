@@ -119,24 +119,23 @@ public class mecanumTeleOp extends OpMode{
 //
 //        }
 
-        if (gamepad1.x ||gamepad2.x)
+        if (gamepad1.x || gamepad2.x)
         {
             dragPower += 1;
         }
-        else if(gamepad1.y||gamepad2.y)
+        else if(gamepad1.y || gamepad2.y)
         {
             dragPower -= 1;
         }
-        if (dragPower < 0)
+        if (dragPower < -20)
         {
-            dragPower = 0;
+            dragPower = -20;
         }
-        if (dragPower > 90)
+        if (dragPower > 20)
         {
-            dragPower = 90;
+            dragPower = 20;
         }
-
-        robot.servoDrag.setPosition(dragPower);
+        robot.servoDrag.setPosition(dragPower / 20);
 
 
 
