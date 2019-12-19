@@ -4,7 +4,6 @@
     package="com.qualcomm.teamcode"
     android:versionCode="33"
     android:versionName="5.1">
-    // hi
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
