@@ -234,7 +234,6 @@ public class TestDriving extends LinearOpMode {
         }
     }
 
-
     public void normalDrive(double lpower, double rpower) {
 
         if (opModeIsActive()) {

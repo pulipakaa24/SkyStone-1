@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //@Disabled
 
 //THE KEY BELOW IS FOR USING IMAGE RECOGNITION -PULKIT
-//AT5CUvf/////AAAAGaBn6TlejU79iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
+//AT5CUvf/////AAAAGaBn6TlejU7]
+//9iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
 
 public class mecanumTeleOp extends OpMode{
 
@@ -20,8 +21,8 @@ public class mecanumTeleOp extends OpMode{
     private double brPower = 0; //back power
     private boolean scalePower = false;
     private boolean cornerTurn = true;
-//    private double llpower = 0; // left lift power
-//    private double rlpower = 0; // right lift power
+    private double llpower = 0; // left lift power
+    private double rlpower = 0; // right lift power
 
 
 
@@ -100,42 +101,41 @@ public class mecanumTeleOp extends OpMode{
             }
         }
 
-//        if (gamepad2.dpad_up)
-//        {
-//            llpower = .5;
-//            rlpower = .5;
-//        }
-//        else if (gamepad2.dpad_down)
-//        {
-//            llpower = -.5;
-//            rlpower = -.5;
-//
-//        }
-//        else
-//        {
-//            llpower = 0;
-//            rlpower = 0;
-//
-//
-//        }
+        if (gamepad2.dpad_up)
+        {
+            llpower = .5;
+            rlpower = .5;
+        }
+        else if (gamepad2.dpad_down)
+        {
+            llpower = -.5;
+            rlpower = -.5;
 
-        if (gamepad1.x || gamepad2.x)
+        }
+        else
+        {
+            llpower = 0;
+            rlpower = 0;
+        }
+
+        if (gamepad1.x ||gamepad2.x)
         {
             dragPower += 1;
         }
-        else if(gamepad1.y || gamepad2.y)
+        else if(gamepad1.y||gamepad2.y)
         {
             dragPower -= 1;
         }
-        if (dragPower < -20)
+        if (dragPower < 0)
         {
-            dragPower = -20;
+            dragPower = 0;
         }
-        if (dragPower > 20)
+        if (dragPower > 90)
         {
-            dragPower = 20;
+            dragPower = 90;
         }
-        robot.servoDrag.setPosition(dragPower / 20);
+
+        //robot.servoDrag.setPosition(dragPower);
 
 
 
@@ -202,8 +202,8 @@ public class mecanumTeleOp extends OpMode{
         robot.motorBackRight.setPower(brPower);
         robot.motorFrontRight.setPower(frPower);
         robot.motorBackLeft.setPower(blPower);
-//        robot.leftLift.setPower(llpower);
-//        robot.rightLift.setPower(rlpower);
+        //robot.leftLift.setPower(llpower);
+        //robot.rightLift.setPower(rlpower);
 
 
 
