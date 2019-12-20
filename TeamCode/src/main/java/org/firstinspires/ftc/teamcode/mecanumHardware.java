@@ -64,14 +64,19 @@ public class mecanumHardware
 
         servoGrab = hwMap.get(Servo.class, "servoGrab");
         claw = hwMap.get(Servo.class, "claw");
+        servoGrab.scaleRange(.5,1);
+        servoGrab.setDirection(Servo.Direction.FORWARD);
+        claw.scaleRange(.5,1);
+        claw.setDirection(Servo.Direction.REVERSE);
+
 
 
 
         // Here we set the motor directions.
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -101,6 +106,8 @@ public class mecanumHardware
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

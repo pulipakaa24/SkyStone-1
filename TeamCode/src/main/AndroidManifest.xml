@@ -4,15 +4,15 @@
     package="com.qualcomm.teamcode"
     android:versionCode="33"
     android:versionName="5.1">
-    // hi
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        tools:replace="android:theme"
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppThemeRedRC" >
+        android:theme="@style/AppThemeGreenRC" >
 
         <!-- Indicates to the ControlHubUpdater what the latest version of the Control Hub is that this app supports -->
         <meta-data
