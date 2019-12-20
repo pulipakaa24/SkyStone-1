@@ -120,20 +120,20 @@ public class mecanumTeleOp extends OpMode{
 
         if (gamepad1.x ||gamepad2.x)
         {
-            robot.servoGrab.setPosition(0);
+            robot.servoClaw.setPosition(0);
         }
         else if(gamepad1.y||gamepad2.y)
         {
-            robot.servoGrab.setPosition(1);
+            robot.servoClaw.setPosition(1);
         }
 
         if(gamepad2.a)
         {
-            robot.claw.setPosition(0);
+            robot.servoLatch.setPosition(0);
         }
         else if(gamepad2.b)
         {
-            robot.claw.setPosition(1);
+            robot.servoLatch.setPosition(1);
         }
 
         if(frPower > 1)

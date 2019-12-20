@@ -18,8 +18,8 @@ public class mecanumHardware
     public DcMotor motorFrontRight;
     public DcMotor motorLiftR;
     public DcMotor motorLiftL;
-    public Servo servoGrab;
-    public Servo claw;
+    public Servo servoLatch;
+    public Servo servoClaw;
     //public Servo servoDrag;
 //    public DcMotor leftLift;
 //    public DcMotor rightLift;
@@ -49,8 +49,9 @@ public class mecanumHardware
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
-        motorLiftR = hwMap.get(DcMotor.class,"motorLiftRight");
-        motorLiftL = hwMap.get(DcMotor.class, "motorLiftLeft");
+        motorLiftR = hwMap.get(DcMotor.class,"motorLiftR");
+
+        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
 
         //servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
@@ -62,12 +63,12 @@ public class mecanumHardware
 
         //90 is up | 0 is down
 
-        servoGrab = hwMap.get(Servo.class, "servoGrab");
-        claw = hwMap.get(Servo.class, "claw");
-        servoGrab.scaleRange(.5,1);
-        servoGrab.setDirection(Servo.Direction.FORWARD);
-        claw.scaleRange(.5,1);
-        claw.setDirection(Servo.Direction.REVERSE);
+        servoLatch = hwMap.get(Servo.class, "servoGrab");
+        servoClaw = hwMap.get(Servo.class, "claw");
+        servoLatch.scaleRange(.5,1);
+        servoLatch.setDirection(Servo.Direction.FORWARD);
+        servoClaw.scaleRange(.5,1);
+        servoClaw.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -92,8 +93,8 @@ public class mecanumHardware
         motorLiftR.setPower(0);
         motorLiftL.setPower(0);
 
-        servoGrab.setPosition(0.5);
-        claw.setPosition(.5);
+        servoLatch.setPosition(0.5);
+        servoClaw.setPosition(.5);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
