@@ -66,11 +66,6 @@ public class mecanumHardware
         claw = hwMap.get(Servo.class, "claw");
         servoGrab.scaleRange(.5,1);
         servoGrab.setDirection(Servo.Direction.FORWARD);
-        claw.scaleRange(.5,1);
-        claw.setDirection(Servo.Direction.REVERSE);
-
-
-
 
         // Here we set the motor directions.
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
