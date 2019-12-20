@@ -299,5 +299,6 @@ public class MovementVuforia extends MecanumDriving {
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
+
     }
 }

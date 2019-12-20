@@ -20,6 +20,7 @@ public class mecanumHardware
     public DcMotor motorLiftL;
     public Servo servoLatch;
     public Servo servoClaw;
+    public Servo servoTwist;
     //public Servo servoDrag;
 //    public DcMotor leftLift;
 //    public DcMotor rightLift;
@@ -69,6 +70,8 @@ public class mecanumHardware
         servoLatch.setDirection(Servo.Direction.FORWARD);
         servoClaw.scaleRange(.5,1);
         servoClaw.setDirection(Servo.Direction.REVERSE);
+        servoTwist.scaleRange(.5,1);
+        servoTwist.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -78,6 +81,8 @@ public class mecanumHardware
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorLiftL.setDirection(DcMotor.Direction.FORWARD);
+        motorLiftR.setDirection(DcMotor.Direction.REVERSE);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -95,6 +100,7 @@ public class mecanumHardware
 
         servoLatch.setPosition(0.5);
         servoClaw.setPosition(.5);
+        servoTwist.setPosition(.5);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
