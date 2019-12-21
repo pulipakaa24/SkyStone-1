@@ -67,11 +67,11 @@ public class mecanumHardware
         servoLatch = hwMap.get(Servo.class, "servoLatch");
         servoClaw = hwMap.get(Servo.class, "servoClaw");
         servoTwist = hwMap.get(Servo.class,"servoTwist");
-        servoLatch.scaleRange(.5,1);
+//        servoLatch.scaleRange(.5,1);
         servoLatch.setDirection(Servo.Direction.FORWARD);
-        servoClaw.scaleRange(.5,1);
-        servoClaw.setDirection(Servo.Direction.REVERSE);
-        servoTwist.scaleRange(.5,1);
+//        servoClaw.scaleRange(.5,1);
+        servoClaw.setDirection(Servo.Direction.FORWARD);
+//        servoTwist.scaleRange(.5,1)
         servoTwist.setDirection(Servo.Direction.REVERSE);
 
 
@@ -83,7 +83,7 @@ public class mecanumHardware
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorLiftL.setDirection(DcMotor.Direction.FORWARD);
-        motorLiftR.setDirection(DcMotor.Direction.REVERSE);
+        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -100,7 +100,7 @@ public class mecanumHardware
         motorLiftL.setPower(0);
 
         servoLatch.setPosition(0.5);
-        servoClaw.setPosition(.7);
+        servoClaw.setPosition(1);
         servoTwist.setPosition(.5);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);

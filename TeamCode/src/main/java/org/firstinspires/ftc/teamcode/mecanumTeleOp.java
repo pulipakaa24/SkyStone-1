@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import static android.os.SystemClock.sleep;
+
 @TeleOp(name="MecanumTeleOp", group="Zippo")
 //@Disabled
 
@@ -72,14 +74,14 @@ public class mecanumTeleOp extends OpMode{
         //rotate
 
         if (true) {
-            if (gamepad1.right_stick_x > 0.1) {
-                flPower = -1;
-                brPower = 1;
-                frPower = -1;
-                blPower = 1;
-            } else if (gamepad1.right_stick_x < -0.1) {
+            if (gamepad1.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
+                frPower = -1;
+                blPower = 1;
+            } else if (gamepad1.right_stick_x > 0.1) {
+                flPower = -1;
+                brPower = 1;
                 frPower = 1;
                 blPower = -1;
             }
@@ -118,30 +120,41 @@ public class mecanumTeleOp extends OpMode{
             rlpower = 0.0001;
         }
 
-        if (gamepad1.x ||gamepad2.x)
+        if (gamepad1.x)
         {
-            robot.servoClaw.setPosition(.2);
+
+            robot.servoClaw.setPosition(0);
+
+
         }
-        else if(gamepad1.y||gamepad2.y)
+        else if(gamepad1.y)
         {
             robot.servoClaw.setPosition(1);
+//            double position = 0.49;
+//            robot.servoClaw.setPosition(position);
+//            while (position >=0)
+//            {
+//                position -= 0.1;
+//                robot.servoClaw.setPosition(position);
+//                sleep(100);
+//            }
         }
 
-        if(gamepad2.a)
+        if(gamepad1.a)
         {
             robot.servoLatch.setPosition(0);
         }
-        else if(gamepad2.b)
+        else if(gamepad1.b)
         {
             robot.servoLatch.setPosition(1);
         }
         if(gamepad1.right_bumper)
         {
-            robot.servoTwist.setPosition(.5);
+            robot.servoTwist.setPosition(0);
         }
         else if(gamepad1.left_bumper)
         {
-            robot.servoTwist.setPosition(1);
+            robot.servoTwist.setPosition(.5);
         }
 
 
