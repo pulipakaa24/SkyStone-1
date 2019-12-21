@@ -64,8 +64,9 @@ public class mecanumHardware
 
         //90 is up | 0 is down
 
-        servoLatch = hwMap.get(Servo.class, "servoGrab");
-        servoClaw = hwMap.get(Servo.class, "claw");
+        servoLatch = hwMap.get(Servo.class, "servoLatch");
+        servoClaw = hwMap.get(Servo.class, "servoClaw");
+        servoTwist = hwMap.get(Servo.class,"servoTwist");
         servoLatch.scaleRange(.5,1);
         servoLatch.setDirection(Servo.Direction.FORWARD);
         servoClaw.scaleRange(.5,1);
@@ -99,7 +100,7 @@ public class mecanumHardware
         motorLiftL.setPower(0);
 
         servoLatch.setPosition(0.5);
-        servoClaw.setPosition(.5);
+        servoClaw.setPosition(.7);
         servoTwist.setPosition(.5);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);

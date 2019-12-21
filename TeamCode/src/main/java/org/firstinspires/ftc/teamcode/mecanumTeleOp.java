@@ -71,7 +71,7 @@ public class mecanumTeleOp extends OpMode{
 
         //rotate
 
-        if (!cornerTurn) {
+        if (true) {
             if (gamepad1.right_stick_x > 0.1) {
                 flPower = -1;
                 brPower = 1;
@@ -84,28 +84,28 @@ public class mecanumTeleOp extends OpMode{
                 blPower = -1;
             }
         }
-        else
-        {
-            if (gamepad1.right_stick_x > 0.1) {
-                flPower = -1;
+//        else
+//        {
+//            if (gamepad1.right_stick_x > 0.1) {
+//                flPower = -1;
+//
+//                frPower = -1;
+//                blPower = 1;
+//            } else if (gamepad1.right_stick_x < -0.1) {
+//                flPower = 1;
+//                brPower = -1;
+////                frPower = 1;
+//                blPower = -1;
+//
+//            }
+//        }
 
-                frPower = -1;
-                blPower = 1;
-            } else if (gamepad1.right_stick_x < -0.1) {
-                flPower = 1;
-                brPower = -1;
-//                frPower = 1;
-                blPower = -1;
-
-            }
-        }
-
-        if (gamepad2.dpad_up)
+        if (gamepad1.dpad_up)
         {
             llpower = 1;
             rlpower = 1;
         }
-        else if (gamepad2.dpad_down)
+        else if (gamepad1.dpad_down)
         {
             llpower = -1;
             rlpower = -1;
@@ -120,7 +120,7 @@ public class mecanumTeleOp extends OpMode{
 
         if (gamepad1.x ||gamepad2.x)
         {
-            robot.servoClaw.setPosition(0);
+            robot.servoClaw.setPosition(.2);
         }
         else if(gamepad1.y||gamepad2.y)
         {
@@ -135,6 +135,17 @@ public class mecanumTeleOp extends OpMode{
         {
             robot.servoLatch.setPosition(1);
         }
+        if(gamepad1.right_bumper)
+        {
+            robot.servoTwist.setPosition(.5);
+        }
+        else if(gamepad1.left_bumper)
+        {
+            robot.servoTwist.setPosition(1);
+        }
+
+
+
 
         if(frPower > 1)
         {
@@ -170,15 +181,15 @@ public class mecanumTeleOp extends OpMode{
         {
             brPower = -1;
         }
-
-        if (gamepad1.left_stick_button)
-        {
-            scalePower = !scalePower;
-        }
-        if (gamepad1.right_stick_button)
-        {
-            cornerTurn = !cornerTurn;
-        }
+//
+//        if (gamepad1.left_stick_button)
+//        {
+//            scalePower = !scalePower;
+//        }
+//        if (gamepad1.right_stick_button)
+//        {
+//            cornerTurn = !cornerTurn;
+//        }
         //BringDown hook = new BringDown();
 
 
