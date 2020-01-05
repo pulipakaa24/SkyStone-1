@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaSkyStoneNavigation;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -13,6 +18,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
 /**
@@ -51,18 +69,53 @@ public class MecanumDriving extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
 
+    //VUFORIA STUFF SKYSTONE DETECTION
+    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    private static final boolean PHONE_IS_PORTRAIT = false;
 
+    private static final String VUFORIA_KEY =
+            "AQU7a8H/////AAABmfH4ZcQHIkPTjsjCf80CSVReJtuQBMiQodPHMSkdFHY8RhKT4fIEcY3JbCWjXRsUBFiewYx5etup17dUnX/SIQx6cjctrioEXrID+gV4tD9B29eCOdFVgyAr+7ZnEHHDYcSnt2pfzDZyMpi+I3IODqbUgVO82UiaZViuZBnA3dNvokZNFwZvv8/YDkcd4LhHv75QdkqgBzKe/TumwxjR/EqtR2fQRy9WnRjNVR9fYGl9MsuGNBSEmmys6GczXn8yZ/k2PKusiYz7h4hFGiXmlVLyikZuB4dxETGoqz+WWYUFJAdHzFiBptg5xXaa86qMBYBi3ht0RUiBKicLJhQZzLG0bIEJZWr198ihexUuhhGV";
+
+    private static final float mmPerInch = 25.4f;
+    private static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
+
+    // Constant for Stone Target
+    private static final float stoneZ = 2.00f * mmPerInch;
+
+    // Constants for the center support targets
+    private static final float bridgeZ = 6.42f * mmPerInch;
+    private static final float bridgeY = 23 * mmPerInch;
+    private static final float bridgeX = 5.18f * mmPerInch;
+    private static final float bridgeRotY = 59;                                 // Units are degrees
+    private static final float bridgeRotZ = 180;
+
+    // Constants for perimeter targets
+    private static final float halfField = 72 * mmPerInch;
+    private static final float quadField = 36 * mmPerInch;
+
+    private OpenGLMatrix lastLocation = null;
+    private VuforiaLocalizer vuforia = null;
+
+    WebcamName webcamName = null;
+
+    private boolean targetVisible = false;
+    private float phoneXRotate = 0;
+    private float phoneYRotate = 0;
+    private float phoneZRotate = 0;
+
+
+    //MOTOR CONSTANTS
     static final double COUNTS_PER_MOTOR_REV = 537; //216
-    static final double DRIVE_GEAR_REDUCTION = 0.6666;     // This is < 1.0 if geared UP
+    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.0;     // For figuring circumference
-//    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-//            (WHEEL_DIAMETER_INCHES * 3.1415);
-static final double COUNTS_PER_INCH = 20;
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    //static final double COUNTS_PER_INCH = 20;
     static final double DRIVE_SPEED = 1;
     static final double TURN_SPEED = 0.5;
     BNO055IMU imu;
-    Orientation             lastAngles = new Orientation();
-    double                  globalAngle, power = .30, correction;
+    Orientation lastAngles = new Orientation();
+    double globalAngle, power = .30, correction;
 
     @Override
     public void runOpMode() {
@@ -117,124 +170,55 @@ static final double COUNTS_PER_INCH = 20;
         return newInches;
     }
 
-    public void encoderDrive(double inches, String direction, double timeoutS, double topPower) {
 
-
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        telemetry.addData("Running", "IN THE THING AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-
-        telemetry.update();
-        robot.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        sleep(1000);
-        int TargetFL = 0;
-        int TargetFR = 0;
-        int TargetBL = 0;
-        int TargetBR = 0;
-        double errorFL = 0;
-        double errorFR = 0;
-        double errorBL = 0;
-        double errorBR = 0;
-        double powerFL = 0;
-        double powerFR = 0;
-        double powerBL = 0;
-        double powerBR = 0;
-
-
-        String heading = direction;
+    public void mecanumEncoder(double speed, double leftInches, double rightInches, double timeoutS, String direction) {
+        int FLTarget = 0;
+        int FRTarget = 0;
+        int BLTarget = 0;
+        int BRTarget = 0;
+        /*telemetry.addData("currentposL: ", robot.motorLeft.getTargetPosition());
+        telemetry.addData("currentposR: ", robot.motorRight.getTargetPosition());
+        telemetry.update();*/
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
-            if (heading.equals("f")) {
-                TargetFL = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                TargetFR = robot.motorFrontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                TargetBL = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                TargetBR = robot.motorBackRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-                telemetry.addData("Running", "IN THE THING front");
-
-                telemetry.update();
-
-            } else if (heading.equals("b")) {
-                TargetFL = robot.motorFrontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetFR = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetBL = robot.motorBackLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetBR = robot.motorBackRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-
-
-            } else if (heading.equals("r")) {
-                TargetFL = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                TargetFR = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetBL = robot.motorBackLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetBR = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH); //weird should be +
-
-
-            } else if (heading.equals("l")) {
-                TargetFL = robot.motorFrontLeft.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-                TargetFR = robot.motorFrontRight.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-                TargetBL = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH); // weird should be +
-                TargetBR = robot.motorBackRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-
-            } else {
-                telemetry.addData("not a valid direction", heading);
-                telemetry.update();
-            }
-
-            telemetry.addData("Front Left Current: ", robot.motorFrontLeft.getCurrentPosition());
-            telemetry.addData("Front Right Current: ", robot.motorFrontRight.getCurrentPosition());
-            telemetry.addData("Back Left Current: ", robot.motorBackLeft.getCurrentPosition());
-            telemetry.addData("Back Right Current: ", robot.motorBackRight.getCurrentPosition());
-            telemetry.addData("", "");
-            telemetry.addData("Front Left Target: ", TargetFL);
-            telemetry.addData("Front Right Target: ", TargetFR);
-            telemetry.addData("Back Left Target: ", TargetBL);
-            telemetry.addData("Back Right Target: ", TargetBR);
-            telemetry.update();
-
-            sleep(1000);
 
             // Determine new target position, and pass to motor controller
 
-//            robot.motorFrontLeft.setTargetPosition(TargetFL);
-//            robot.motorFrontRight.setTargetPosition(TargetFR);
-//            robot.motorBackLeft.setTargetPosition(TargetBL);
-//            robot.motorBackRight.setTargetPosition(TargetBR);
-//
-//
-//            // Turn On RUN_TO_POSITION
-//            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorFrontLeft.setPower(TargetFL);
-            robot.motorFrontRight.setPower(TargetFR);
-            robot.motorBackLeft.setPower(TargetBL);
-            robot.motorBackRight.setPower(TargetBR);
+            if (direction.equals("vertical")) {
+                FLTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+                FRTarget = robot.motorFrontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+                BLTarget = robot.motorBackLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+                BRTarget = robot.motorBackRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            } else if (direction.equals("lateral")) {
+                FLTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+                FRTarget = robot.motorFrontRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+                BLTarget = robot.motorBackLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+                BRTarget = robot.motorBackRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            } else {
+                telemetry.addLine("not a valid direction");
+                telemetry.update();
+            }
 
+            double correction = checkDirection();
+            robot.motorFrontLeft.setTargetPosition(FLTarget);
+            robot.motorFrontRight.setTargetPosition(FRTarget);
+            robot.motorBackLeft.setTargetPosition(BLTarget);
+            robot.motorBackRight.setTargetPosition(BRTarget);
+
+
+            // Turn On RUN_TO_POSITION
+            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            /*robot.fLMotor.setPower(Speed);
-            robot.fRMotor.setPower(Speed);
-            robot.bRMotor.setPower(Speed);
-            robot.bLMotor.setPower(Speed);*/
+            robot.motorFrontLeft.setPower(Math.abs(speed) - correction);
+            robot.motorFrontRight.setPower(Math.abs(speed) + correction);
+            robot.motorBackLeft.setPower(Math.abs(speed) - correction);
+            robot.motorBackRight.setPower(Math.abs(speed) + correction);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -244,47 +228,42 @@ static final double COUNTS_PER_INCH = 20;
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) && ((robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy()) && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
-                errorFL = TargetFL - robot.motorFrontLeft.getCurrentPosition();
-                errorFR = TargetFR - robot.motorFrontRight.getCurrentPosition();
-                errorBL = TargetBL - robot.motorBackLeft.getCurrentPosition();
-                errorBR = TargetBR - robot.motorBackRight.getCurrentPosition();
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy())) {
 
-                powerFL = topPower * pidMultiplier(errorFL);
-                powerFR = topPower * pidMultiplier(errorFR);
-                powerBL = topPower * pidMultiplier(errorBL);
-                powerBR = topPower * pidMultiplier(errorBR);
-
-                robot.motorFrontLeft.setPower(Math.abs(powerFL));
-                robot.motorFrontRight.setPower(Math.abs(powerFR));
-                robot.motorBackRight.setPower(Math.abs(powerBL));
-                robot.motorBackLeft.setPower(Math.abs(powerBR));
-                telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d", TargetFL, TargetFR, TargetBL, TargetBR);
-
-                telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d", robot.motorFrontLeft.getCurrentPosition(), robot.motorFrontRight.getCurrentPosition(), robot.motorBackLeft.getCurrentPosition(), robot.motorBackRight.getCurrentPosition());
-                //telemetry.addData("speeds",  "Running to %7f :%7f :%7f :%7f", speedfL,  speedfR, speedfL, speedbR);
+                //Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", FLTarget, FRTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        robot.motorFrontLeft.getCurrentPosition(),
+                        robot.motorFrontRight.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
             robot.motorFrontLeft.setPower(0);
-            robot.motorBackLeft.setPower(0);
             robot.motorFrontRight.setPower(0);
+            robot.motorBackLeft.setPower(0);
             robot.motorBackRight.setPower(0);
+            telemetry.addData("Path1", "Running to %7d :%7d", FLTarget, FRTarget);
+            telemetry.addData("Path2", "Running at %7d :%7d",
+                    robot.motorFrontLeft.getCurrentPosition(),
+                    robot.motorFrontRight.getCurrentPosition());
+            telemetry.update();
+            /*telemetry.addData("FinalposL: ", robot.motorLeft.getTargetPosition());
+            telemetry.addData("FinalposR: ", robot.motorRight.getTargetPosition());
+            telemetry.update();*/
 
             // Turn off RUN_TO_POSITION
-            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //  sleep(250);   // optional pause after each move
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            robot.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            //  sleep(250);   // optional pause after each move
         }
     }
+
 
     public void normalDrive(double lpower, double rpower) {
 
@@ -324,19 +303,18 @@ static final double COUNTS_PER_INCH = 20;
         return 5;
     }
 
-    private double checkDirection()
-    {
+    private double checkDirection() {
         double correction, angle, gain = .10;
         angle = getAngle();
         if (angle == 0)
-            correction =0;
+            correction = 0;
         else
             correction = -angle;
         correction = correction * gain;
         return correction;
     }
-    private double getAngle()
-    {
+
+    private double getAngle() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
@@ -351,6 +329,99 @@ static final double COUNTS_PER_INCH = 20;
         lastAngles = angles;
 
         return globalAngle;
+    }
+
+    public boolean skystoneDetection(int direction) {
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = webcamName;
+
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+
+        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
+        stoneTarget.setName("Stone Target");
+
+        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+        allTrackables.addAll(targetsSkyStone);
+        stoneTarget.setLocation(OpenGLMatrix
+                .translation(0, 0, stoneZ)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
+
+        if (CAMERA_CHOICE == BACK) {
+            phoneYRotate = -90;
+        } else {
+            phoneYRotate = 90;
+        }
+
+        // Rotate the phone vertical about the X axis if it's in portrait mode
+        if (PHONE_IS_PORTRAIT) {
+            phoneXRotate = 90;
+        }
+
+        final float CAMERA_FORWARD_DISPLACEMENT = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
+        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT = 0;     // eg: Camera is ON the robot's center line
+
+        OpenGLMatrix robotFromCamera = OpenGLMatrix
+                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
+
+        for (VuforiaTrackable trackable : allTrackables) {
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+        }
+
+        boolean isFound = false;
+
+        targetsSkyStone.activate();
+        while (!isStopRequested() && isFound == false) {
+
+            targetVisible = false;
+            for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
+
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
+                }
+            }
+
+            if (targetVisible) {
+                VectorF translation = lastLocation.getTranslation();
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                telemetry.addData("isFound: ", isFound);
+                mecanumEncoder(0.5, 4.5*direction, 4.5*direction, 5, "lateral");
+                sleep(500);
+                mecanumEncoder(0.5, -5, -5, 5, "vertical");
+                robot.servoClaw.setPosition(1);
+                mecanumEncoder(0.5, 5, 5, 5, "vertical");
+                isFound = true;
+            } else {
+                isFound = false;
+                telemetry.addData("Visible Target", "none");
+                telemetry.addData("isFound: ", isFound);
+                mecanumEncoder(0.5, 5*direction, 5*direction, 5, "lateral");
+                sleep(1000);
+            }
+            telemetry.update();
+        }
+
+        targetsSkyStone.deactivate();
+        return isFound;
     }
 
 
