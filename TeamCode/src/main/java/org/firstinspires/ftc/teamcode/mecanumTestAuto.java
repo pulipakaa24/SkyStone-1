@@ -12,12 +12,12 @@ public class mecanumTestAuto extends MecanumDriving{
 
         robot.servoClaw.setPosition(0);
         robot.servoTwist.setPosition(0);
-
         mecanumEncoder(0.5, -9, -9, 5, "vertical");
-        while(opModeIsActive() && skystoneDetection(-1) != true)
-        {
-            skystoneDetection(-1);
-        }
+
+
+
+        skystoneDetection(-1);
+
 
         mecanumEncoder(0.5, 5, 5, 5, "vertical");
 
