@@ -208,12 +208,7 @@ public class MecanumDriving extends LinearOpMode {
         for (VuforiaTrackable trackable : allTrackables) {
             ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, vuParameters.cameraDirection);
         }
-        if (targetsSkyStone == null)
-        {
-            telemetry.addLine("NULL");
-            telemetry.update();
-            sleep(10000);
-        }
+
         targetsSkyStone.activate();
         //tf.start(); //moved to start of program
 
@@ -389,7 +384,30 @@ public class MecanumDriving extends LinearOpMode {
 
         return globalAngle;
     }
+    public float skystoneAlign() //This should automatically laterally align the robot to grab the block
+    {
 
+        while (!targetVisible) {
+            for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
+                    telemetry.update();
+
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
+                }
+            }//Using Vuforia to search for the block. Stops once a block is found
+        }
+        VectorF translation = lastLocation.getTranslation();//initializes the "Translation." This allows us to see where the block is in relation to the robot.
+        float moveAmount = -translation.get(1) /mmPerInch -2;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
+
+        mecanumEncoder(.5, moveAmount, moveAmount, 1, "lateral");
+        return moveAmount;//this will allow us to keep track of how far the robot moves in the future.
+    }
     public boolean skystoneDetection(int direction) {
 
 
@@ -400,6 +418,7 @@ public class MecanumDriving extends LinearOpMode {
         while (isFound == false) {
 
             targetVisible = false;
+
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
@@ -425,9 +444,10 @@ public class MecanumDriving extends LinearOpMode {
                 telemetry.addData("isFound: ", isFound);
                 telemetry.update();
                 sleep(500);
-                mecanumEncoder(0.5, 5*direction, 5*direction, 5, "lateral");
+//                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
+                skystoneAlign();
                 sleep(500);
-                mecanumEncoder(0.5, -6, -6, 5, "vertical");
+                mecanumEncoder(0.9, -6, -6, 5, "vertical");
                 sleep(500);
                 robot.servoClaw.setPosition(1);
                 sleep(500);
@@ -438,7 +458,7 @@ public class MecanumDriving extends LinearOpMode {
                 telemetry.addData("Visible Target", "none");
                 telemetry.addData("isFound: ", isFound);
                 telemetry.update();
-                mecanumEncoder(0.5, 5*direction, 5*direction, 5, "lateral");
+                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
                 sleep(100);
             }
 
