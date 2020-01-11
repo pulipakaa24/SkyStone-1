@@ -47,7 +47,7 @@ public class mecanumTeleOp extends OpMode{
 //        rPower = gamepad1.right_stick_y;
 //        fPower = -gamepad1.right_stick_x;
 //        bPower = -gamepad1.right_stick_x;
-        if (gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1)
+        if ((gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1)||(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1))
         {
             flPower = gamepad1.left_stick_y * 2;
             brPower = gamepad1.left_stick_y *2;
@@ -56,7 +56,7 @@ public class mecanumTeleOp extends OpMode{
         }
 
 
-        else if (gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2)
+        else if ((gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2) || (gamepad2.left_stick_x <-.02 || gamepad2.left_stick_x > .2))
         {
             frPower = gamepad1.left_stick_x * 2;
             blPower = gamepad1.left_stick_x * 2;
@@ -71,15 +71,39 @@ public class mecanumTeleOp extends OpMode{
             blPower = 0;
         }
 
+//        if (gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
+//        {
+//            flPower = gamepad1.left_stick_y * 2;
+//            brPower = gamepad1.left_stick_y *2;
+//            frPower = gamepad1.left_stick_y *2;
+//            blPower = gamepad1.left_stick_y* 2;
+//        }
+//
+//
+//        else if (gamepad2.left_stick_x < -0.2 || gamepad2.left_stick_x > .2)
+//        {
+//            frPower = gamepad1.left_stick_x * 2;
+//            blPower = gamepad1.left_stick_x * 2;
+//            flPower = -gamepad1.left_stick_x * 2;
+//            brPower = -gamepad1.left_stick_x * 2;
+//        }
+//        else
+//        {
+//            flPower = 0;
+//            brPower = 0;
+//            frPower = 0;
+//            blPower = 0;
+//        }
+
         //rotate
 
         if (true) {
-            if (gamepad1.right_stick_x < -0.1) {
+            if (gamepad1.right_stick_x < -0.1 || gamepad2.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
                 frPower = -1;
                 blPower = 1;
-            } else if (gamepad1.right_stick_x > 0.1) {
+            } else if (gamepad1.right_stick_x > 0.1 || gamepad2.right_stick_x> 0.1) {
                 flPower = -1;
                 brPower = 1;
                 frPower = 1;
@@ -102,12 +126,12 @@ public class mecanumTeleOp extends OpMode{
 //            }
 //        }
 
-        if (gamepad1.dpad_up)
+        if (gamepad1.dpad_up || gamepad2.dpad_up)
         {
             llpower = 1;
             rlpower = 1;
         }
-        else if (gamepad1.dpad_down)
+        else if (gamepad1.dpad_down || gamepad2.dpad_down)
         {
             llpower = -1;
             rlpower = -1;
@@ -120,14 +144,14 @@ public class mecanumTeleOp extends OpMode{
             rlpower = 0.0001;
         }
 
-        if (gamepad1.x)
+        if (gamepad1.x || gamepad2.x)
         {
 
             robot.servoClaw.setPosition(0);
 
 
         }
-        else if(gamepad1.y)
+        else if(gamepad1.y || gamepad2.y)
         {
             robot.servoClaw.setPosition(1);
 //            double position = 0.49;
@@ -140,19 +164,19 @@ public class mecanumTeleOp extends OpMode{
 //            }
         }
 
-        if(gamepad1.a)
+        if(gamepad1.a || gamepad2.a)
         {
             robot.servoLatch.setPosition(0);
         }
-        else if(gamepad1.b)
+        else if(gamepad1.b || gamepad2.b)
         {
             robot.servoLatch.setPosition(1);
         }
-        if(gamepad1.right_bumper)
+        if(gamepad1.right_bumper || gamepad2.right_bumper)
         {
             robot.servoTwist.setPosition(0);
         }
-        else if(gamepad1.left_bumper)
+        else if(gamepad1.left_bumper || gamepad2.left_bumper)
         {
             robot.servoTwist.setPosition(.5);
         }

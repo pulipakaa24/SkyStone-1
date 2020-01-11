@@ -275,7 +275,7 @@ public class MovementVuforia extends MecanumDriving {
                 else
                 {
                     telemetry.addData("X movement", "Move Closer");
-                    encoderDrive(2, "f", 5, 1);
+                    mecanumEncoder(1.0, -5, -5, 1, "lateral");
                 }
 
                 if (translation.get(1) /mmPerInch < -3)

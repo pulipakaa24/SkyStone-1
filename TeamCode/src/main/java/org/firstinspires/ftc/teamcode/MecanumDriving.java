@@ -117,6 +117,9 @@ public class MecanumDriving extends LinearOpMode {
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
 
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    VuforiaTrackables targetsSkyStone;
+    VuforiaTrackable stoneTarget;
     @Override
     public void runOpMode() {
         /*
@@ -161,6 +164,57 @@ public class MecanumDriving extends LinearOpMode {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters vuParameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+        vuParameters.vuforiaLicenseKey = VUFORIA_KEY;
+        vuParameters.cameraName = webcamName;
+
+        vuforia = ClassFactory.getInstance().createVuforia(vuParameters);
+        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+
+
+        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
+        stoneTarget.setName("Stone Target");
+
+
+        allTrackables.addAll(targetsSkyStone);
+        stoneTarget.setLocation(OpenGLMatrix
+                .translation(0, 0, stoneZ)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
+
+        if (CAMERA_CHOICE == BACK) {
+            phoneYRotate = -90;
+        } else {
+            phoneYRotate = 90;
+        }
+
+        // Rotate the phone vertical about the X axis if it's in portrait mode
+        if (PHONE_IS_PORTRAIT) {
+            phoneXRotate = 90;
+        }
+
+        final float CAMERA_FORWARD_DISPLACEMENT = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
+        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT = 0;     // eg: Camera is ON the robot's center line
+
+        OpenGLMatrix robotFromCamera = OpenGLMatrix
+                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
+
+        for (VuforiaTrackable trackable : allTrackables) {
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, vuParameters.cameraDirection);
+        }
+        if (targetsSkyStone == null)
+        {
+            telemetry.addLine("NULL");
+            telemetry.update();
+            sleep(10000);
+        }
+        targetsSkyStone.activate();
         //tf.start(); //moved to start of program
 
     }
@@ -272,6 +326,11 @@ public class MecanumDriving extends LinearOpMode {
             robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.motorFrontRight.setPower(rpower);
             robot.motorFrontLeft.setPower(lpower);
+
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.motorBackRight.setPower(rpower);
+            robot.motorBackLeft.setPower(lpower);
         }
     }
 
@@ -333,60 +392,19 @@ public class MecanumDriving extends LinearOpMode {
 
     public boolean skystoneDetection(int direction) {
 
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = webcamName;
-
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
-
-        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
-        stoneTarget.setName("Stone Target");
-
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(targetsSkyStone);
-        stoneTarget.setLocation(OpenGLMatrix
-                .translation(0, 0, stoneZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
-        if (CAMERA_CHOICE == BACK) {
-            phoneYRotate = -90;
-        } else {
-            phoneYRotate = 90;
-        }
-
-        // Rotate the phone vertical about the X axis if it's in portrait mode
-        if (PHONE_IS_PORTRAIT) {
-            phoneXRotate = 90;
-        }
-
-        final float CAMERA_FORWARD_DISPLACEMENT = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
-        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT = 0;     // eg: Camera is ON the robot's center line
-
-        OpenGLMatrix robotFromCamera = OpenGLMatrix
-                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
-
-        for (VuforiaTrackable trackable : allTrackables) {
-            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
-        }
 
         boolean isFound = false;
 
-        targetsSkyStone.activate();
-        while (!isStopRequested() && isFound == false) {
+        //!isStopRequested()
+        while (isFound == false) {
 
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
+                    telemetry.update();
 
                     OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                     if (robotLocationTransform != null) {
@@ -397,6 +415,7 @@ public class MecanumDriving extends LinearOpMode {
             }
 
             if (targetVisible) {
+                isFound = true;
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
@@ -404,25 +423,172 @@ public class MecanumDriving extends LinearOpMode {
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 telemetry.addData("isFound: ", isFound);
-                mecanumEncoder(0.5, 4.5*direction, 4.5*direction, 5, "lateral");
+                telemetry.update();
                 sleep(500);
-                mecanumEncoder(0.5, -5, -5, 5, "vertical");
+                mecanumEncoder(0.5, 5*direction, 5*direction, 5, "lateral");
+                sleep(500);
+                mecanumEncoder(0.5, -6, -6, 5, "vertical");
+                sleep(500);
                 robot.servoClaw.setPosition(1);
+                sleep(500);
                 mecanumEncoder(0.5, 5, 5, 5, "vertical");
-                isFound = true;
+
             } else {
                 isFound = false;
                 telemetry.addData("Visible Target", "none");
                 telemetry.addData("isFound: ", isFound);
+                telemetry.update();
                 mecanumEncoder(0.5, 5*direction, 5*direction, 5, "lateral");
-                sleep(1000);
+                sleep(100);
             }
-            telemetry.update();
+
         }
 
         targetsSkyStone.deactivate();
         return isFound;
     }
 
+    public void mecanumTurn(double speed, double inches, double timeoutS) {
+        int FLTarget = 0;
+        int FRTarget = 0;
+        int BLTarget = 0;
+        int BRTarget = 0;
+        /*telemetry.addData("currentposL: ", robot.motorLeft.getTargetPosition());
+        telemetry.addData("currentposR: ", robot.motorRight.getTargetPosition());
+        telemetry.update();*/
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            FLTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            FRTarget = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            BLTarget = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            BRTarget = robot.motorBackRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+
+            double correction = checkDirection();
+            robot.motorFrontLeft.setTargetPosition(FLTarget);
+            robot.motorFrontRight.setTargetPosition(FRTarget);
+            robot.motorBackLeft.setTargetPosition(BLTarget);
+            robot.motorBackRight.setTargetPosition(BRTarget);
+
+
+            // Turn On RUN_TO_POSITION
+            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            robot.motorFrontLeft.setPower(Math.abs(speed) - correction);
+            robot.motorFrontRight.setPower(Math.abs(speed) + correction);
+            robot.motorBackLeft.setPower(Math.abs(speed) - correction);
+            robot.motorBackRight.setPower(Math.abs(speed) + correction);
+
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy())) {
+
+                //Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", FLTarget, FRTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        robot.motorFrontLeft.getCurrentPosition(),
+                        robot.motorFrontRight.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            robot.motorFrontLeft.setPower(0);
+            robot.motorFrontRight.setPower(0);
+            robot.motorBackLeft.setPower(0);
+            robot.motorBackRight.setPower(0);
+            telemetry.addData("Path1", "Running to %7d :%7d", FLTarget, FRTarget);
+            telemetry.addData("Path2", "Running at %7d :%7d",
+                    robot.motorFrontLeft.getCurrentPosition(),
+                    robot.motorFrontRight.getCurrentPosition());
+            telemetry.update();
+            /*telemetry.addData("FinalposL: ", robot.motorLeft.getTargetPosition());
+            telemetry.addData("FinalposR: ", robot.motorRight.getTargetPosition());
+            telemetry.update();*/
+
+            // Turn off RUN_TO_POSITION
+            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+
+    public void gyroDrive(double target, String xyz, double topPower, double timeoutS) {
+        //Write code to correct to a target position (NOT FINISHED)
+
+        runtime.reset();
+
+        double angle = readAngle(xyz); //variable for gyro correction around z axis
+        double error = angle - target;
+        double powerScaled = topPower;
+        do {
+            angle = readAngle(xyz);
+            error = angle - target;
+            powerScaled = topPower * (error / 180) * pidMultiplier(error);
+
+
+            //double powerScaled = power*pidMultiplier(error);
+            telemetry.addData("original angle", originalAngle);
+            telemetry.addData("current angle", readAngle(xyz));
+            telemetry.addData("error", error);
+            telemetry.update();
+            if (error > 0) {
+                if (xyz.equals("z")) {
+                    normalDrive(powerScaled, -powerScaled);
+                }
+                if (xyz.equals("y")) {
+                    if (opModeIsActive()) {
+                        robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorFrontLeft.setPower(powerScaled);
+                        robot.motorFrontRight.setPower(-powerScaled);
+
+                        robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorBackLeft.setPower(powerScaled);
+                        robot.motorBackRight.setPower(-powerScaled);
+                    }
+                }
+            } else if (error < 0) {
+                if (xyz.equals("z")) {
+                    normalDrive(powerScaled, -powerScaled);
+                }
+                if (xyz.equals("y")) {
+                    if (opModeIsActive()) {
+                        robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorFrontLeft.setPower(powerScaled);
+                        robot.motorFrontRight.setPower(-powerScaled);
+
+                        robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        robot.motorBackLeft.setPower(powerScaled);
+                        robot.motorBackRight.setPower(-powerScaled);
+                    }
+                }
+            }
+//(Math.abs(0-error)>.3)
+            //(error > 0.3 && error > 0) || (error < -0.3 && error < 0)
+        } while (opModeIsActive() && ((error > 0.3) || (error < -0.3)) && (runtime.seconds() < timeoutS));
+        normalDrive(0, 0);
+
+    }
 
 }

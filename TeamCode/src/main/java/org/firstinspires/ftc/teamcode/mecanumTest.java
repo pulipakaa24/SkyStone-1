@@ -13,11 +13,8 @@ public class mecanumTest extends MecanumDriving{
 
         super.runOpMode();
 
-        mecanumEncoder(1.0, -8, -8, 10, "vertical");
-        mecanumEncoder(1.0, 8, 8, 10, "vertical");
-        mecanumEncoder(1.0, -8, -8, 5, "lateral");
-        mecanumEncoder(1.0, 8, 8, 5, "lateral");
 
+        mecanumTurn(1.0, 9.5, 5);
         telemetry.addData("Running", "Past the drive");
         telemetry.update();
     }
