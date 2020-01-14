@@ -10,16 +10,16 @@ public class mecanumTestAuto extends MecanumDriving{
     {
         super.runOpMode();
 
-        robot.servoClaw.setPosition(0);
-        robot.servoTwist.setPosition(0);
-        mecanumEncoder(0.5, -5, -5.5, 5.5, "vertical");
-
-        skystoneDetection(-1);
+//        robot.servoClaw.setPosition(0);
+//        robot.servoTwist.setPosition(0);
+//        mecanumEncoder(0.5, -5, -5.5, 5.5, "vertical");
+//
+//        skystoneDetection(1);
 
 //        mecanumEncoder(0.5, 5, 5, 5, "vertical");
-        mecanumTurn(1.0, 7.75, 5);
+        mecanumTurn(1.0, -90, 5);
         sleep(100);
-        mecanumEncoder(1.0, -35, -35, 5, "vertical");
+//        mecanumEncoder(1.0, -35, -35, 5, "vertical");
 
 
         telemetry.addData("Running", "Past the drive");

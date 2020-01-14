@@ -403,14 +403,14 @@ public class MecanumDriving extends LinearOpMode {
             }//Using Vuforia to search for the block. Stops once a block is found
         }
         VectorF translation = lastLocation.getTranslation();//initializes the "Translation." This allows us to see where the block is in relation to the robot.
-        float moveAmount = -translation.get(1) /mmPerInch -2;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
-
-        mecanumEncoder(.5, moveAmount, moveAmount, 1, "lateral");
+        float moveAmount = -translation.get(1) /mmPerInch - 6;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
+//            negative goes right? positive goes left    -6
+        mecanumEncoder(1.7, moveAmount, moveAmount, 1, "lateral");
         return moveAmount;//this will allow us to keep track of how far the robot moves in the future.
     }
     public boolean skystoneDetection(int direction) {
 
-
+        int speedMod = 4;
 
         boolean isFound = false;
 
@@ -432,7 +432,7 @@ public class MecanumDriving extends LinearOpMode {
                     break;
                 }
             }
-
+//            targetVisible = true; //this NEEDS to be committed out
             if (targetVisible) {
                 isFound = true;
                 VectorF translation = lastLocation.getTranslation();
@@ -447,18 +447,18 @@ public class MecanumDriving extends LinearOpMode {
 //                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
                 skystoneAlign();
                 sleep(500);
-                mecanumEncoder(0.9, -6, -6, 5, "vertical");
+                mecanumEncoder(1.8, -6, -6, 5, "vertical");
                 sleep(500);
                 robot.servoClaw.setPosition(1);
                 sleep(500);
-                mecanumEncoder(0.5, 5, 5, 5, "vertical");
+                mecanumEncoder(0.9, 5, 5, 5, "vertical");
 
             } else {
                 isFound = false;
                 telemetry.addData("Visible Target", "none");
                 telemetry.addData("isFound: ", isFound);
                 telemetry.update();
-                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
+                mecanumEncoder(0.5, speedMod*direction, speedMod*direction, 1, "lateral");
                 sleep(100);
             }
 
@@ -468,7 +468,8 @@ public class MecanumDriving extends LinearOpMode {
         return isFound;
     }
 
-    public void mecanumTurn(double speed, double inches, double timeoutS) {
+    public void mecanumTurn(double speed, double degrees, double timeoutS) {
+        degrees = degrees / 90 * 9.5; //this was inches before. I made it so that you input degrees, then the program converts it to inches.
         int FLTarget = 0;
         int FRTarget = 0;
         int BLTarget = 0;
@@ -481,10 +482,10 @@ public class MecanumDriving extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            FLTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-            FRTarget = robot.motorFrontRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
-            BLTarget = robot.motorBackLeft.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-            BRTarget = robot.motorBackRight.getCurrentPosition() - (int) (inches * COUNTS_PER_INCH);
+            FLTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (degrees * COUNTS_PER_INCH);
+            FRTarget = robot.motorFrontRight.getCurrentPosition() - (int) (degrees * COUNTS_PER_INCH);
+            BLTarget = robot.motorBackLeft.getCurrentPosition() + (int) (degrees * COUNTS_PER_INCH);
+            BRTarget = robot.motorBackRight.getCurrentPosition() - (int) (degrees * COUNTS_PER_INCH);
 
             double correction = checkDirection();
             robot.motorFrontLeft.setTargetPosition(FLTarget);

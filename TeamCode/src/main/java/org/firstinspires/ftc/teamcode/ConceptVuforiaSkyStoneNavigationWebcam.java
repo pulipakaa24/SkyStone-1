@@ -328,6 +328,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
+        boolean found = false;
         targetsSkyStone.activate();
         while (!isStopRequested()) {
 
@@ -368,4 +369,6 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
     }
+
+
 }
