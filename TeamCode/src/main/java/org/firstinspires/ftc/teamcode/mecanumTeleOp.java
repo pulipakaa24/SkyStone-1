@@ -97,7 +97,7 @@ public class mecanumTeleOp extends OpMode{
 
         //rotate
 
-        if (true) {
+        if (cornerTurn) {
             if (gamepad1.right_stick_x < -0.1 || gamepad2.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
@@ -110,21 +110,20 @@ public class mecanumTeleOp extends OpMode{
                 blPower = -1;
             }
         }
-//        else
-//        {
-//            if (gamepad1.right_stick_x > 0.1) {
-//                flPower = -1;
-//
-//                frPower = -1;
-//                blPower = 1;
-//            } else if (gamepad1.right_stick_x < -0.1) {
-//                flPower = 1;
-//                brPower = -1;
-////                frPower = 1;
-//                blPower = -1;
-//
-//            }
-//        }
+        else
+        {
+            if (gamepad1.right_stick_x > 0.1) {
+                flPower = -1;
+
+                frPower = -1;
+                blPower = 1;
+            } else if (gamepad1.right_stick_x < -0.1) {
+                flPower = 1;
+                brPower = -1;
+                blPower = -1;
+
+            }
+        }
 
         if (gamepad1.dpad_up || gamepad2.dpad_up)
         {
@@ -140,8 +139,8 @@ public class mecanumTeleOp extends OpMode{
 
         else
         {
-            llpower = 0.0001;
-            rlpower = 0.0001;
+            llpower = 0.001;
+            rlpower = 0.001;
         }
 
         if (gamepad1.x || gamepad2.x)
@@ -219,14 +218,22 @@ public class mecanumTeleOp extends OpMode{
             brPower = -1;
         }
 //
-//        if (gamepad1.left_stick_button)
-//        {
-//            scalePower = !scalePower;
-//        }
-//        if (gamepad1.right_stick_button)
-//        {
-//            cornerTurn = !cornerTurn;
-//        }
+        if (gamepad1.left_trigger > .1)
+        {
+            scalePower = true;
+        }
+        else
+        {
+            scalePower = false;
+        }
+        if (gamepad1.right_trigger > .1)
+        {
+            cornerTurn = true;
+        }
+        else
+        {
+            cornerTurn = false;
+        }
         //BringDown hook = new BringDown();
 
 

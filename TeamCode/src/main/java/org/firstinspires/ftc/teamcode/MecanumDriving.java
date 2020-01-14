@@ -403,15 +403,15 @@ public class MecanumDriving extends LinearOpMode {
             }//Using Vuforia to search for the block. Stops once a block is found
         }
         VectorF translation = lastLocation.getTranslation();//initializes the "Translation." This allows us to see where the block is in relation to the robot.
-        float moveAmount = -translation.get(1) /mmPerInch - 6;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
+        float moveAmount = -translation.get(1) /mmPerInch - 5.5f;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
 //            negative goes right? positive goes left    -6
         mecanumEncoder(1.7, moveAmount, moveAmount, 1, "lateral");
         return moveAmount;//this will allow us to keep track of how far the robot moves in the future.
     }
-    public boolean skystoneDetection(int direction) {
+    public float skystoneDetection(int direction) {
 
         int speedMod = 4;
-
+        float moveAmount = 0;
         boolean isFound = false;
 
         //!isStopRequested()
@@ -445,7 +445,7 @@ public class MecanumDriving extends LinearOpMode {
                 telemetry.update();
                 sleep(500);
 //                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
-                skystoneAlign();
+                moveAmount += skystoneAlign();
                 sleep(500);
                 mecanumEncoder(1.8, -6, -6, 5, "vertical");
                 sleep(500);
@@ -460,17 +460,18 @@ public class MecanumDriving extends LinearOpMode {
                 telemetry.update();
                 mecanumEncoder(0.5, speedMod*direction, speedMod*direction, 1, "lateral");
                 sleep(100);
+                moveAmount += speedMod * direction;
             }
 
         }
 
         targetsSkyStone.deactivate();
-        return isFound;
+        return moveAmount;
     }
 
     public void mecanumTurn(double speed, double degrees, double timeoutS) {
-        degrees = degrees / 90 * 9.5; //this was inches before. I made it so that you input degrees, then the program converts it to inches.
-        int FLTarget = 0;
+        degrees = degrees / 90 * 10.5; //this was inches before. I made it so that you input degrees, then the program converts it to inches.
+        int FLTarget = 0;//9.5
         int FRTarget = 0;
         int BLTarget = 0;
         int BRTarget = 0;
