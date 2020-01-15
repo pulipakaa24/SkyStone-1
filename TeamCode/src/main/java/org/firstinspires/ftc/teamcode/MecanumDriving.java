@@ -446,6 +446,7 @@ public class MecanumDriving extends LinearOpMode {
                 sleep(500);
 //                mecanumEncoder(0.5, 5*direction, 5*direction, 1, "lateral");
                 moveAmount += skystoneAlign();
+//                moveAmount += skystoneAlign();
                 sleep(500);
                 mecanumEncoder(1.8, -6, -6, 5, "vertical");
                 sleep(500);

@@ -21,12 +21,15 @@ public class mecanumTestAuto extends MecanumDriving{
 
 //        mecanumEncoder(0.5, 5, 5, 5, "vertical");
         mecanumTurn(1, 90, 5);
-        mecanumEncoder(1.7, -6, -6, 1, "lateral");
+        gyroDrive(90, "x", .5, .4);
+//        mecanumEncoder(1.7, -6, -6, 1, "lateral");
         sleep(500);
-        mecanumEncoder(1, -33 + moveAmount, -33 + moveAmount, 5, "vertical");
-        sleep(100);
+        mecanumEncoder(.5, -35 + moveAmount, -35 + moveAmount, 5, "vertical");
+        sleep(500);
         robot.servoClaw.setPosition(0);
+        sleep (500);
 
+        mecanumEncoder(.7, 11, 11, 3, "vertical");
 //        mecanumEncoder(1.0, -35, -35, 5, "vertical");
 
         telemetry.addData("Running", "Past the drive");
