@@ -27,7 +27,9 @@ public class mecanumTestAuto extends MecanumDriving{
         mecanumEncoder(.5, -35 + moveAmount, -35 + moveAmount, 5, "vertical");
         sleep(500);
         robot.servoClaw.setPosition(0);
+        skyLift(.5, 3, 3);
         sleep (500);
+        skyLift(.5, -3, 3);
 
         mecanumEncoder(.7, 11, 11, 3, "vertical");
 //        mecanumEncoder(1.0, -35, -35, 5, "vertical");

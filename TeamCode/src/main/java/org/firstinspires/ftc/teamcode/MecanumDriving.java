@@ -469,7 +469,32 @@ public class MecanumDriving extends LinearOpMode {
         targetsSkyStone.deactivate();
         return moveAmount;
     }
+    public void skyLift(double speed, double inches, double timeoutS)// POSITIVE IS: up? NEGATIVE IS: down?
+    {
+        int rLiftTarget = robot.motorLiftR.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        int lLiftTarget = robot.motorLiftR.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);//calculates how far the motor needs to move
 
+        robot.motorLiftR.setTargetPosition(rLiftTarget);//assigns position
+        robot.motorLiftL.setTargetPosition(lLiftTarget);
+
+        robot.motorLiftR.setMode(DcMotor.RunMode.RUN_TO_POSITION);//changes to run a number of inches, rather than using encoders
+        robot.motorLiftL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        runtime.reset();//resets the runtime so that the time out works
+
+        robot.motorLiftR.setPower(Math.abs(speed) + correction);//turns the motors on
+        robot.motorLiftL.setPower(Math.abs(speed) + correction);
+
+        while (opModeIsActive() &&//ends the motors when time runs out
+                (runtime.seconds() < timeoutS) &&
+                (robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy())){}
+
+        robot.motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);//turns the motors back to encoders.
+        robot.motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
+    }
     public void mecanumTurn(double speed, double degrees, double timeoutS) {
         degrees = degrees / 90 * 10.5; //this was inches before. I made it so that you input degrees, then the program converts it to inches.
         int FLTarget = 0;//9.5

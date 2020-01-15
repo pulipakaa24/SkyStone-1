@@ -127,13 +127,13 @@ public class mecanumTeleOp extends OpMode{
 
         if (gamepad1.dpad_up || gamepad2.dpad_up)
         {
-            llpower = 1;
-            rlpower = 1;
+            llpower = .8;
+            rlpower = .8;
         }
         else if (gamepad1.dpad_down || gamepad2.dpad_down)
         {
-            llpower = -1;
-            rlpower = -1;
+            llpower = -.8;
+            rlpower = -.8;
 
         }
 
