@@ -558,7 +558,7 @@ public class MecanumDriving extends LinearOpMode {
         runtime.reset();
 
         double angle = readAngle(xyz); //variable for gyro correction around z axis
-        double error = angle - target;
+        double error;
         double powerScaled = topPower;
         do {
             angle = readAngle(xyz);
@@ -575,7 +575,7 @@ public class MecanumDriving extends LinearOpMode {
                 if (xyz.equals("z")) {
                     normalDrive(powerScaled, -powerScaled);
                 }
-                if (xyz.equals("y")) {
+                if (xyz.equals("x")) {
                     if (opModeIsActive()) {
                         robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -592,7 +592,7 @@ public class MecanumDriving extends LinearOpMode {
                 if (xyz.equals("z")) {
                     normalDrive(powerScaled, -powerScaled);
                 }
-                if (xyz.equals("y")) {
+                if (xyz.equals("x")) {
                     if (opModeIsActive()) {
                         robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -608,7 +608,7 @@ public class MecanumDriving extends LinearOpMode {
             }
 //(Math.abs(0-error)>.3)
             //(error > 0.3 && error > 0) || (error < -0.3 && error < 0)
-        } while (opModeIsActive() && ((error > 0.3) || (error < -0.3)) && (runtime.seconds() < timeoutS));
+        } while (opModeIsActive() && ((error > 0.5) || (error < -0.5)) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
 
     }

@@ -14,7 +14,8 @@ public class mecanumTest extends MecanumDriving{
         super.runOpMode();
 
 
-        mecanumTurn(1.0, 9.5, 5);
+        //mecanumTurn(1.0, 45, 5);
+        gyroDrive(90, "x", 1.0, 5);
         telemetry.addData("Running", "Past the drive");
         telemetry.update();
     }
