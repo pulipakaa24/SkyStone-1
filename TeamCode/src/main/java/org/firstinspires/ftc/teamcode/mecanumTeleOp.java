@@ -97,7 +97,7 @@ public class mecanumTeleOp extends OpMode{
 
         //rotate
 
-        if (cornerTurn) {
+        if (true) {
             if (gamepad1.right_stick_x < -0.1 || gamepad2.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
