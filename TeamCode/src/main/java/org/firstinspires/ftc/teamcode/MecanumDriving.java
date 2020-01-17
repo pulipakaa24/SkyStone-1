@@ -405,7 +405,7 @@ public class MecanumDriving extends LinearOpMode {
         VectorF translation = lastLocation.getTranslation();//initializes the "Translation." This allows us to see where the block is in relation to the robot.
         float moveAmount = -translation.get(1) /mmPerInch - 5.5f;//this should center the block and the grabbing mechanism. If it doesn't, try adjusting the -2
 //            negative goes right? positive goes left    -6
-        mecanumEncoder(1.7, moveAmount, moveAmount, 1, "lateral");
+        mecanumEncoder(1.0, moveAmount/2, moveAmount/2, 1, "lateral");
         return moveAmount;//this will allow us to keep track of how far the robot moves in the future.
     }
     public float skystoneDetection(int direction) {

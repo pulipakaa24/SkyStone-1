@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-@Autonomous(name="MecanumTestAuto", group="Bernard")
+@Autonomous(name="BlueDetection", group="Bernard")
 //@Disabled??'
 public class mecanumTestAuto extends MecanumDriving{
     public void runOpMode()
