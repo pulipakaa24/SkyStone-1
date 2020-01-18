@@ -100,9 +100,9 @@ public class mecanumHardware
         motorLiftR.setPower(0);
         motorLiftL.setPower(0);
 
-        servoLatch.setPosition(-0.5);
-        servoClaw.setPosition(-1);
-        servoTwist.setPosition(0);
+        servoLatch.setPosition(-0.1);
+        //servoClaw.setPosition(-.8);
+        //servoTwist.setPosition(1);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);

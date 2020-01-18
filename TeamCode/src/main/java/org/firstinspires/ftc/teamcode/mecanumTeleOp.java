@@ -28,7 +28,6 @@ public class mecanumTeleOp extends OpMode{
 
 
 
-
     @Override
     public void init() {
         /* Initialize the hardware variables.
@@ -37,6 +36,7 @@ public class mecanumTeleOp extends OpMode{
         robot.init(hardwareMap);
         //robot.sensorColor.enableLed(false);
         double time =  System.currentTimeMillis();
+        robot.servoLatch.setPosition(-0.1);
 
     }
 
@@ -146,7 +146,7 @@ public class mecanumTeleOp extends OpMode{
         if (gamepad1.x || gamepad2.x)
         {
 
-            robot.servoClaw.setPosition(0);
+            robot.servoClaw.setPosition(-1);
 
 
         }

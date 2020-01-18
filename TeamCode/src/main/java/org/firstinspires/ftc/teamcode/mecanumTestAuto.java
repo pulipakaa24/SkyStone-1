@@ -11,9 +11,12 @@ public class mecanumTestAuto extends MecanumDriving{
         super.runOpMode();
         float moveAmount;
 
-        robot.servoClaw.setPosition(1);
-        robot.servoTwist.setPosition(0);
+        robot.servoClaw.setPosition(0.5);
         robot.servoLatch.setPosition(.7);
+        robot.servoTwist.setPosition(-1);
+        sleep(500);
+        robot.servoTwist.setPosition(0);
+
         mecanumEncoder(0.5, -5, -5.5, 5.5, "vertical");
         mecanumEncoder(1.7, -3, -3, 2, "lateral");
 
