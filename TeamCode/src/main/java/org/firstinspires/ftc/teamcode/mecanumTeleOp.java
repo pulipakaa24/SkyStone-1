@@ -146,13 +146,12 @@ public class mecanumTeleOp extends OpMode{
         if (gamepad1.x || gamepad2.x)
         {
 
-            robot.servoClaw.setPosition(-1);
-
+            robot.servoClaw.setPower(.5);
 
         }
         else if(gamepad1.y || gamepad2.y)
         {
-            robot.servoClaw.setPosition(1);
+            robot.servoClaw.setPower(-.5);
 //            double position = 0.49;
 //            robot.servoClaw.setPosition(position);
 //            while (position >=0)

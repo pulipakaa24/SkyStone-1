@@ -19,7 +19,7 @@ public class mecanumHardware
     public DcMotor motorLiftR;
     public DcMotor motorLiftL;
     public Servo servoLatch;
-    public Servo servoClaw;
+    public CRServo servoClaw;
     public Servo servoTwist;
 
     //public Servo servoDrag;
@@ -66,12 +66,12 @@ public class mecanumHardware
         //90 is up | 0 is down
 
         servoLatch = hwMap.get(Servo.class, "servoLatch");
-        servoClaw = hwMap.get(Servo.class, "servoClaw");
+        servoClaw = hwMap.get(CRServo.class, "servoClaw");
         servoTwist = hwMap.get(Servo.class,"servoTwist");
 //        servoLatch.scaleRange(.5,1);
         servoLatch.setDirection(Servo.Direction.FORWARD);
 //        servoClaw.scaleRange(.5,1);
-        servoClaw.setDirection(Servo.Direction.FORWARD);
+        servoClaw.setDirection(CRServo.Direction.FORWARD);
 //        servoTwist.scaleRange(.5,1)
         servoTwist.setDirection(Servo.Direction.REVERSE);
 

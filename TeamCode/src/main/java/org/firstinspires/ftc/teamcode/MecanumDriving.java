@@ -450,7 +450,7 @@ public class MecanumDriving extends LinearOpMode {
                 sleep(500);
                 mecanumEncoder(1.8, -6, -6, 5, "vertical");
                 sleep(500);
-                robot.servoClaw.setPosition(-1);
+                //robot.servoClaw.setPosition(-1);
                 sleep(500);
                 mecanumEncoder(0.9, 5, 5, 5, "vertical");
 
