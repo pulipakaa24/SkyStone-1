@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class driveOnlyTeleOp extends OpMode{
 
-    mecanumHardware robot  = new mecanumHardware();
+    driveOnlyHardware robot  = new driveOnlyHardware();
 
     // Create variables for motor power
     private double flPower = 0; //left wheel
