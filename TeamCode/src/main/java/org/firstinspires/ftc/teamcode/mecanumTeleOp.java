@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import static android.os.SystemClock.sleep;
+import static java.lang.Boolean.TRUE;
 
 @TeleOp(name="MecanumTeleOp", group="Zippo")
 //@Disabled
@@ -97,7 +98,7 @@ public class mecanumTeleOp extends OpMode{
 
         //rotate
 
-        if (cornerTurn) {
+        if (TRUE) {
             if (gamepad1.right_stick_x < -0.1 || gamepad2.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
