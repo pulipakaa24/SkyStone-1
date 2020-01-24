@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class mecanumHardware
+public class driveOnlyHardware
 {
     // Here we define all of the motors we use.
     // Our robot uses omni-wheels and a four motor drive system.
@@ -16,11 +13,11 @@ public class mecanumHardware
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     public DcMotor motorFrontRight;
-    public DcMotor motorLiftR;
-    public DcMotor motorLiftL;
-    public Servo servoLatch;
-    public CRServo servoClaw;
-    public Servo servoTwist;
+//    public DcMotor motorLiftR;
+//    public DcMotor motorLiftL;
+//    public Servo servoLatch;
+//    public CRServo servoClaw;
+//    public Servo servoTwist;
 
     //public Servo servoDrag;
 //    public DcMotor leftLift;
@@ -51,9 +48,9 @@ public class mecanumHardware
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
-        motorLiftR = hwMap.get(DcMotor.class,"motorLiftR");
-
-        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
+//        motorLiftR = hwMap.get(DcMotor.class,"motorLiftR");
+//
+//        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
 
         //servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
@@ -65,15 +62,15 @@ public class mecanumHardware
 
         //90 is up | 0 is down
 
-        servoLatch = hwMap.get(Servo.class, "servoLatch");
-        servoClaw = hwMap.get(CRServo.class, "servoClaw");
-        servoTwist = hwMap.get(Servo.class,"servoTwist");
-//        servoLatch.scaleRange(.5,1);
-        servoLatch.setDirection(Servo.Direction.FORWARD);
-//        servoClaw.scaleRange(.5,1);
-        servoClaw.setDirection(CRServo.Direction.FORWARD);
-//        servoTwist.scaleRange(.5,1)
-        servoTwist.setDirection(Servo.Direction.REVERSE);
+//        servoLatch = hwMap.get(Servo.class, "servoLatch");
+//        servoClaw = hwMap.get(CRServo.class, "servoClaw");
+//        servoTwist = hwMap.get(Servo.class,"servoTwist");
+////        servoLatch.scaleRange(.5,1);
+//        servoLatch.setDirection(Servo.Direction.FORWARD);
+////        servoClaw.scaleRange(.5,1);
+//        servoClaw.setDirection(CRServo.Direction.FORWARD);
+////        servoTwist.scaleRange(.5,1)
+//        servoTwist.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -83,8 +80,8 @@ public class mecanumHardware
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        motorLiftL.setDirection(DcMotor.Direction.FORWARD);
-        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
+//        motorLiftL.setDirection(DcMotor.Direction.FORWARD);
+//        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -97,11 +94,11 @@ public class mecanumHardware
         motorBackLeft.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
-        motorLiftR.setPower(0);
-        motorLiftL.setPower(0);
-
-        servoLatch.setPosition(-0.1);
-        //servoClaw.setPosition(-.8);
+//        motorLiftR.setPower(0);
+//        motorLiftL.setPower(0);
+//
+//        servoLatch.setPosition(-0.1);
+//        //servoClaw.setPosition(-.8);
         //servoTwist.setPosition(1);
         //servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
@@ -113,10 +110,10 @@ public class mecanumHardware
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

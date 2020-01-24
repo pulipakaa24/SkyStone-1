@@ -4,29 +4,25 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="TestServo", group="Bernard")
-public class testServo extends TestDriving {
+public class testServo extends MecanumDriving {
 
     public void runOpMode() {
         super.runOpMode();
 
-        robot.servoDrag.setPosition(0);
-        robot.servoDrag.setPosition(90);
+        //robot.servoClaw.setPosition(-1);
+        sleep(500);
+        //robot.servoClaw.setPosition(-.5);
+        sleep(500);
+        //robot.servoClaw.setPosition(0);
+        sleep(500);
 
-        telemetry.addData("Drag finished", "");
-        telemetry.update();
-
-        robot.servoGrab.setPosition(0);
-        robot.servoGrab.setPosition(1);
-
-        telemetry.addData("Grab finished", "");
-        telemetry.update();
+        //robot.servoClaw.setPosition(.5);
+        sleep(500);
 
 
-        robot.servoTwist.setPosition(0);
-        robot.servoTwist.setPosition(90);
+        //robot.servoClaw.setPosition(1);
 
-        telemetry.addData("Twist finished", "");
-        telemetry.update();
+
 
     }
 }
