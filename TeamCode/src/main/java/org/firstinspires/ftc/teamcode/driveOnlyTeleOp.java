@@ -47,9 +47,9 @@ public class driveOnlyTeleOp extends OpMode{
 //        bPower = -gamepad1.right_stick_x;
         if ((gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1)||(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1))
         {
-            flPower = -gamepad1.left_stick_y * 2;
+            flPower = gamepad1.left_stick_y * 2;
             brPower = gamepad1.left_stick_y *2;
-            frPower = -gamepad1.left_stick_y *2;
+            frPower = gamepad1.left_stick_y *2;
             blPower = gamepad1.left_stick_y* 2;
         }
 
