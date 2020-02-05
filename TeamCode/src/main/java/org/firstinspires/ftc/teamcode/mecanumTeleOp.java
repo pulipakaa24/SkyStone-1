@@ -25,6 +25,7 @@ public class mecanumTeleOp extends OpMode{
     private boolean aCheck = false;
     private double llpower = 0; // left lift power
     private double rlpower = 0; // right lift power
+    private double dragPower = .9;
 
 
 
@@ -162,13 +163,24 @@ public class mecanumTeleOp extends OpMode{
 //            }
         }
 
-        if(gamepad1.a || gamepad2.a)
+        if(gamepad2.a)
         {
             robot.servoLatch.setPosition(0);
         }
-        else if(gamepad1.b || gamepad2.b)
+        else if(gamepad2.b)
         {
             robot.servoLatch.setPosition(1);
+        }
+
+        if (gamepad1.a)
+        {
+            robot.servoDrag2.setPosition(0);
+            robot.servoDrag1.setPosition(0);
+        }
+        else if (gamepad1.b)
+        {
+            robot.servoDrag2.setPosition(.9);
+            robot.servoDrag1.setPosition(.9);
         }
         if(gamepad1.right_bumper || gamepad2.right_bumper)
         {
