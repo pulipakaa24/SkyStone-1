@@ -79,7 +79,6 @@ public class mecanumHardware
         servoClaw.setDirection(CRServo.Direction.FORWARD);
 //        servoTwist.scaleRange(.5,1)
         servoTwist.setDirection(Servo.Direction.REVERSE);
-
         servoDrag1.setDirection(Servo.Direction.REVERSE);
         servoDrag2.setDirection(Servo.Direction.FORWARD);
 

@@ -3,22 +3,23 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-@Autonomous(name="BlueDetection", group="Bernard")
+@Autonomous(name="PracticeAuto", group="Bernard")
 //@Disabled??'
-public class mecanumTestAuto extends MecanumDriving{
+public class PracticeAuto extends PracticeDriving{
     public void runOpMode()
     {
         super.runOpMode();
         float moveAmount;
 
         //robot.servoClaw.setPosition(0.5);
-        robot.servoLatch.setPosition(.7);
+        /*
         robot.servoTwist.setPosition(-1);
         sleep(500);
         robot.servoTwist.setPosition(0);
 
-        mecanumEncoder(0.5, -5, -5.5, 5.5, "vertical");
-        mecanumEncoder(1.7, -3, -3, 2, "lateral");
+         */
+
+        mecanumEncoder(0.3, -3, -3, 5, "vertical");
 
 
         moveAmount = skystoneDetection(1);
@@ -41,5 +42,6 @@ public class mecanumTestAuto extends MecanumDriving{
         telemetry.addData("Running", "Past the drive");
         telemetry.update();
 
+        //robot.servoClaw.setPosition(0.5);
     }
 }
