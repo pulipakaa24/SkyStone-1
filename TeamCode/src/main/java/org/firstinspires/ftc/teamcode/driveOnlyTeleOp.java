@@ -21,7 +21,7 @@ public class driveOnlyTeleOp extends OpMode{
     private boolean scalePower = false;
     private boolean cornerTurn = true;
     private boolean aCheck = false;
-//    private double llpower = 0; // left lift power
+    private double liftPower = 0; // left lift power
 //    private double rlpower = 0; // right lift power
 
 
@@ -153,7 +153,23 @@ public class driveOnlyTeleOp extends OpMode{
         }
         //BringDown hook = new BringDown();
 
+        if (gamepad1.a)
+        {
+            robot.servoDrag.setPosition(1);
+        }
+        else if (gamepad1.b)
+        {
+            robot.servoDrag.setPosition(0);
+        }
 
+        if (gamepad1.dpad_up)
+        {
+            liftPower=.5;
+        }
+        else if (gamepad1.dpad_down)
+        {
+            liftPower=-.5;
+        }
 //      SCALING POWERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         if(scalePower)
@@ -170,7 +186,7 @@ public class driveOnlyTeleOp extends OpMode{
         robot.motorBackRight.setPower(brPower);
         robot.motorFrontRight.setPower(frPower);
         robot.motorBackLeft.setPower(blPower);
-//        robot.motorLiftL.setPower(llpower);
+        robot.motorLift.setPower(liftPower);
 //        robot.motorLiftR.setPower(rlpower);
 
 

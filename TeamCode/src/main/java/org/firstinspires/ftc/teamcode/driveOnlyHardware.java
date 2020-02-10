@@ -19,8 +19,8 @@ public class driveOnlyHardware
 //    public CRServo servoClaw;
 //    public Servo servoTwist;
 
-    //public Servo servoDrag;
-//    public DcMotor leftLift;
+    public Servo servoDrag;
+    public DcMotor motorLift;
 //    public DcMotor rightLift;
 
 
@@ -48,11 +48,11 @@ public class driveOnlyHardware
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
-//        motorLiftR = hwMap.get(DcMotor.class,"motorLiftR");
+        motorLift = hwMap.get(DcMotor.class,"motorLift");
 //
 //        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
 
-        //servoDrag = hwMap.get(Servo.class, "servoDrag");
+        servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
 //
 //
@@ -80,7 +80,7 @@ public class driveOnlyHardware
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-//        motorLiftL.setDirection(DcMotor.Direction.FORWARD);
+        motorLift.setDirection(DcMotor.Direction.FORWARD);
 //        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
@@ -95,12 +95,12 @@ public class driveOnlyHardware
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
 //        motorLiftR.setPower(0);
-//        motorLiftL.setPower(0);
+        motorLift.setPower(0);
 //
 //        servoLatch.setPosition(-0.1);
 //        //servoClaw.setPosition(-.8);
         //servoTwist.setPosition(1);
-        //servoDrag.setPosition(.9);
+        servoDrag.setPosition(.9);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
 
@@ -110,7 +110,7 @@ public class driveOnlyHardware
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
