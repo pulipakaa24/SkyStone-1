@@ -16,8 +16,9 @@ public class driveOnlyHardware
 //    public DcMotor motorLiftR;
 //    public DcMotor motorLiftL;
 //    public Servo servoLatch;
-//    public CRServo servoClaw;
-//    public Servo servoTwist;
+    public Servo servoClaw;
+    public Servo servoDrop;
+    public CRServo servoTwist;
 
     public Servo servoDrag;
     public DcMotor motorLift;
@@ -63,8 +64,9 @@ public class driveOnlyHardware
         //90 is up | 0 is down
 
 //        servoLatch = hwMap.get(Servo.class, "servoLatch");
-//        servoClaw = hwMap.get(CRServo.class, "servoClaw");
-//        servoTwist = hwMap.get(Servo.class,"servoTwist");
+        servoClaw = hwMap.get(Servo.class, "servoClaw");
+        servoTwist = hwMap.get(CRServo.class,"servoTwist");
+        servoDrop = hwMap.get(Servo.class, "servoDrop");
 ////        servoLatch.scaleRange(.5,1);
 //        servoLatch.setDirection(Servo.Direction.FORWARD);
 ////        servoClaw.scaleRange(.5,1);
@@ -100,7 +102,8 @@ public class driveOnlyHardware
 //        servoLatch.setPosition(-0.1);
 //        //servoClaw.setPosition(-.8);
         //servoTwist.setPosition(1);
-        servoDrag.setPosition(.9);
+        servoDrag.setPosition(0.1);
+        servoDrop.setPosition(0);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
 

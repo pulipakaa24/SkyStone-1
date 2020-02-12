@@ -135,6 +135,21 @@ public class driveOnlyTeleOp extends OpMode{
             brPower = -1;
         }
 //
+        if (gamepad1.x)
+        {
+            robot.servoClaw.setPosition(1);
+        }
+        else if (gamepad1.y)
+        {
+            robot.servoClaw.setPosition(0);
+        }
+
+        if (gamepad1.a && gamepad1.b)
+        {
+            robot.servoDrop.setPosition(1);
+        }
+
+
         if (gamepad1.left_trigger > .1)
         {
             scalePower = true;
@@ -152,14 +167,25 @@ public class driveOnlyTeleOp extends OpMode{
             cornerTurn = false;
         }
         //BringDown hook = new BringDown();
-
-        if (gamepad1.a)
+        if (gamepad1.left_bumper)
         {
-            robot.servoDrag.setPosition(1);
+            robot.servoTwist.setPower(-1);
         }
-        else if (gamepad1.b)
+        else if (gamepad1.right_bumper)
         {
-            robot.servoDrag.setPosition(0);
+            robot.servoTwist.setPower(1);
+        }
+        else
+            robot.servoTwist.setPower(0);
+
+
+        if (gamepad1.dpad_left)
+        {
+            robot.servoDrag.setPosition(.6);
+        }
+        else if (gamepad1.dpad_right)
+        {
+            robot.servoDrag.setPosition(.5);
         }
 
         if (gamepad1.dpad_up)
@@ -169,6 +195,10 @@ public class driveOnlyTeleOp extends OpMode{
         else if (gamepad1.dpad_down)
         {
             liftPower=-.5;
+        }
+        else
+        {
+            liftPower=0;
         }
 //      SCALING POWERS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
