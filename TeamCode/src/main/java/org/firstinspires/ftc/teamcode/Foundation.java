@@ -12,7 +12,7 @@ public class Foundation extends MecanumDriving{
         float moveAmount;
 
         //robot.servoClaw.setPosition(0);
-        robot.servoTwist.setPosition(0);
+        robot.servoTwist.setPower(0);
         mecanumEncoder(0.5, -8, -8, 5.5, "vertical");
         skyLift(.5, 1, 3);
         sleep (500);
