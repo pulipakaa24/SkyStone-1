@@ -16,16 +16,15 @@ public class mecanumHardware
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     public DcMotor motorFrontRight;
-    public DcMotor motorLiftR;
-    public DcMotor motorLiftL;
-    public Servo servoLatch;
-    public CRServo servoClaw;
-    public Servo servoTwist;
-    public  Servo servoDrag1;
-    public Servo servoDrag2;//We may only have one servo. The build team is a mess
+    //    public DcMotor motorLiftR;
+//    public DcMotor motorLiftL;
+//    public Servo servoLatch;
+    public Servo servoClaw;
+    public Servo servoDrop;
+    public CRServo servoTwist;
 
-    //public Servo servoDrag;
-//    public DcMotor leftLift;
+    public Servo servoDrag;
+    public DcMotor motorLift;
 //    public DcMotor rightLift;
 
 
@@ -53,11 +52,11 @@ public class mecanumHardware
 
         motorFrontRight  = hwMap.get(DcMotor.class, "motorFrontRight");
 
-        motorLiftR = hwMap.get(DcMotor.class,"motorLiftR");
+        motorLift = hwMap.get(DcMotor.class,"motorLift");
+//
+//        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
 
-        motorLiftL = hwMap.get(DcMotor.class, "motorLiftL");
-
-        //servoDrag = hwMap.get(Servo.class, "servoDrag");
+        servoDrag = hwMap.get(Servo.class, "servoDrag");
 //        leftLift  = hwMap.get(DcMotor.class, "leftLift");
 //
 //
@@ -67,20 +66,16 @@ public class mecanumHardware
 
         //90 is up | 0 is down
 
-        servoLatch = hwMap.get(Servo.class, "servoLatch");
-        servoClaw = hwMap.get(CRServo.class, "servoClaw");
-        servoTwist = hwMap.get(Servo.class,"servoTwist");
-        servoDrag1 = hwMap.get(Servo.class, "servoDrag1");
-        servoDrag2 = hwMap.get(Servo.class, "servoDrag2");
-
-//        servoLatch.scaleRange(.5,1);
-        servoLatch.setDirection(Servo.Direction.FORWARD);
-//        servoClaw.scaleRange(.5,1);
-        servoClaw.setDirection(CRServo.Direction.FORWARD);
-//        servoTwist.scaleRange(.5,1)
-        servoTwist.setDirection(Servo.Direction.REVERSE);
-        servoDrag1.setDirection(Servo.Direction.REVERSE);
-        servoDrag2.setDirection(Servo.Direction.FORWARD);
+//        servoLatch = hwMap.get(Servo.class, "servoLatch");
+        servoClaw = hwMap.get(Servo.class, "servoClaw");
+        servoTwist = hwMap.get(CRServo.class,"servoTwist");
+        servoDrop = hwMap.get(Servo.class, "servoDrop");
+////        servoLatch.scaleRange(.5,1);
+//        servoLatch.setDirection(Servo.Direction.FORWARD);
+////        servoClaw.scaleRange(.5,1);
+//        servoClaw.setDirection(CRServo.Direction.FORWARD);
+////        servoTwist.scaleRange(.5,1)
+//        servoTwist.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -90,8 +85,8 @@ public class mecanumHardware
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        motorLiftL.setDirection(DcMotor.Direction.FORWARD);
-        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
+        motorLift.setDirection(DcMotor.Direction.FORWARD);
+//        motorLiftR.setDirection(DcMotor.Direction.FORWARD);
 //        leftLift.setDirection(DcMotor.Direction.FORWARD);
 //        rightLift.setDirection(DcMotor.Direction.REVERSE);
 
@@ -104,15 +99,14 @@ public class mecanumHardware
         motorBackLeft.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
-        motorLiftR.setPower(0);
-        motorLiftL.setPower(0);
-
-        servoLatch.setPosition(-0.1);
-        servoDrag2.setPosition(.9);//these may not be the correct values XOXO Ryan
-        servoDrag1.setPosition(.9);
-        //servoClaw.setPosition(-.8);
+//        motorLiftR.setPower(0);
+        motorLift.setPower(0);
+//
+//        servoLatch.setPosition(-0.1);
+//        //servoClaw.setPosition(-.8);
         //servoTwist.setPosition(1);
-        //servoDrag.setPosition(.9);
+        servoDrag.setPosition(0.1);
+        servoDrop.setPosition(1);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
 
@@ -122,10 +116,7 @@ public class mecanumHardware
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
