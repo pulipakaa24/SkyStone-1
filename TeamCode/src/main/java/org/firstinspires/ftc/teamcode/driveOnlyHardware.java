@@ -103,7 +103,7 @@ public class driveOnlyHardware
 //        //servoClaw.setPosition(-.8);
         //servoTwist.setPosition(1);
         servoDrag.setPosition(0.1);
-        servoDrop.setPosition(0);
+        servoDrop.setPosition(1);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);
 

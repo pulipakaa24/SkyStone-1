@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="DriveOnlyTeleOp", group="Zippo")
+@TeleOp(name="TwoPlayerTeleOp", group="Zippo")
 //@Disabled
 
 //THE KEY BELOW IS FOR USING IMAGE RECOGNITION -PULKIT
 //AT5CUvf/////AAAAGaBn6TlejU79iRr5dpGz0Msa4+WbMquS0c0rHQGMURBOGIxPznOmaavjYRYfWHE/qRnpaHDvKIVV1drOmZguwKjiTVfUzVpkRgxdFzcVDsNBldxzhrcSl+bRKGlNv3zKHDfaOJioTa7uzIN/uKUzdJPX+o5PQQxRPYXBuIvAkASbZ9/MVjq5u3Jltyw3Gz9DCPVgxqcMKILOwv9FpMDMRTcgeRwk7f+pPd8f5FmB8ehr3xiDbPxydmYAkpuqQ6Mx2qiggbSlzl4uTm2JeqOP3hbej+ozcevtHKh9C4S3eKodfDUpKekBfdOuR2aer0FwrWxfAqmdOewy5Tei71lLAOgEzx+vo6OPKpSzbTh1gFzI
 
-public class driveOnlyTeleOp extends OpMode{
+public class TwoPlayerTeleOp extends OpMode{
 
     driveOnlyHardware robot  = new driveOnlyHardware();
 
@@ -21,6 +21,7 @@ public class driveOnlyTeleOp extends OpMode{
     private boolean scalePower = false;
     private boolean cornerTurn = true;
     private boolean aCheck = false;
+    private boolean driverControl = true;
     private double liftPower = 0; // left lift power
 //    private double rlpower = 0; // right lift power
 
@@ -40,26 +41,47 @@ public class driveOnlyTeleOp extends OpMode{
 
     @Override
     public void loop() {
-//      MAIN DRIVING CONTROLS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//        lPower = gamepad1.right_stick_y;
-//        rPower = gamepad1.right_stick_y;
-//        fPower = -gamepad1.right_stick_x;
-//        bPower = -gamepad1.right_stick_x;
-        if ((gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1)||(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1))
+//----------------------------------------------------------------------------------------------------
+//      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>MAIN DRIVING CONTROLS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//        When the driver (gamepad1) drives, they drive at full speed, and are able to slow their
+//        speed down. The the precision (gamepad2) drives, they go at 30% speed, allowing for more
+//        precise control.
+//----------------------------------------------------------------------------------------------------
+
+
+        if ((gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1))
         {
             flPower = gamepad1.left_stick_y * 2;
             brPower = gamepad1.left_stick_y *2;
             frPower = gamepad1.left_stick_y *2;
             blPower = gamepad1.left_stick_y* 2;
+            driverControl = true;
+        }
+        else if ((gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1))
+        {
+            flPower = gamepad2.left_stick_y * .6;
+            brPower = gamepad2.left_stick_y * .6;
+            frPower = gamepad2.left_stick_y * .6;
+            blPower = gamepad2.left_stick_y* .6;
+            driverControl = false;
         }
 
 
-        else if ((gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2) || (gamepad2.left_stick_x <-.02 || gamepad2.left_stick_x > .2))
+        else if ((gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2))
         {
             frPower = gamepad1.left_stick_x * 2;
             blPower = gamepad1.left_stick_x * 2;
             flPower = -gamepad1.left_stick_x * 2;
             brPower = -gamepad1.left_stick_x * 2;
+            driverControl = true;
+        }
+        else if (gamepad2.left_stick_x <-.02 || gamepad2.left_stick_x > .2)
+        {
+            frPower = gamepad2.left_stick_x * .6;
+            blPower = gamepad2.left_stick_x * .6;
+            flPower = -gamepad2.left_stick_x * .6;
+            brPower = -gamepad2.left_stick_x * .6;
+            driverControl = false;
         }
         else
         {
@@ -69,15 +91,35 @@ public class driveOnlyTeleOp extends OpMode{
             blPower = 0;
         }
 
-//           //rotate
+//----------------------------------------------------------------------------------------------------
+//      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ROTATION<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//        The driver (player 1) can turn the robot using their right stick. By default, they turn
+//        from the center, but if they hold the right trigger, they turn from the back corners. When
+//        the precision (gamepad2) turns using the bumpers, they turn from the center at 30% speed.
+//----------------------------------------------------------------------------------------------------
 
-        if (true) {
-            if (gamepad1.right_stick_x < -0.1 || gamepad2.right_stick_x < -0.1) {
+        if (gamepad2.right_bumper)
+        {
+            flPower = -.3;
+            brPower = .3;
+            frPower = .3;
+            blPower = -.3;
+        }
+        else if (gamepad2.left_bumper)
+        {
+            flPower = .3;
+            brPower = -.3;
+            frPower = -.3;
+            blPower = .3;
+        }
+        if (gamepad1.right_trigger < .2) {
+            if (gamepad1.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
                 frPower = -1;
                 blPower = 1;
-            } else if (gamepad1.right_stick_x > 0.1 || gamepad2.right_stick_x> 0.1) {
+            }
+            else if (gamepad1.right_stick_x > 0.1) {
                 flPower = -1;
                 brPower = 1;
                 frPower = 1;
@@ -91,13 +133,20 @@ public class driveOnlyTeleOp extends OpMode{
 
                 frPower = -1;
                 blPower = 1;
-            } else if (gamepad1.right_stick_x < -0.1) {
+            }
+            else if (gamepad1.right_stick_x < -0.1) {
                 flPower = 1;
                 brPower = -1;
                 blPower = -1;
 
             }
         }
+
+
+//----------------------------------------------------------------------------------------------------
+//      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>OVERCLOCK PROTECTION<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//        Here, we limit the power going to the motors as to not over clock them.
+//----------------------------------------------------------------------------------------------------
 
 
         if(frPower > 1)
@@ -134,17 +183,32 @@ public class driveOnlyTeleOp extends OpMode{
         {
             brPower = -1;
         }
-//
-        if (gamepad1.x)
+
+//----------------------------------------------------------------------------------------------------
+//      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CLAW USAGE<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//        The driver can use the claw by pressing the buttons x or y, one of which opens, the other
+//        closes. The precision can use their triggers to open and close the claw.
+//----------------------------------------------------------------------------------------------------
+
+
+        if (gamepad1.x || gamepad2.right_trigger > .4)
         {
             robot.servoClaw.setPosition(1);
         }
-        else if (gamepad1.y)
+        else if (gamepad1.y || gamepad2.left_trigger > .4)
         {
             robot.servoClaw.setPosition(0);
         }
 
-        if (gamepad1.a && gamepad1.b)
+//----------------------------------------------------------------------------------------------------
+//      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CAPSTONE DROP<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//        By default, both players must do a anime fusion (?) to drop the capstone, both pressing
+//        the a button. However, the driver may emergency super duper anime scream overpower
+//        auxiliary override this precaution to drop the captsone, by holding a, b, and left trigger.
+//        Either way, the claw must be open, allowing the capstone to have a clear drop.
+//----------------------------------------------------------------------------------------------------
+
+        if ((gamepad1.a && gamepad2.a) && robot.servoClaw.getPosition()>.5)
         {
             robot.servoDrop.setPosition(1);
         }
@@ -169,11 +233,11 @@ public class driveOnlyTeleOp extends OpMode{
         //BringDown hook = new BringDown();
         if (gamepad1.left_bumper)
         {
-            robot.servoTwist.setPower(-1);
+            robot.servoTwist.setPower(1);
         }
         else if (gamepad1.right_bumper)
         {
-            robot.servoTwist.setPower(1);
+            robot.servoTwist.setPower(-1);
         }
         else
             robot.servoTwist.setPower(0);
