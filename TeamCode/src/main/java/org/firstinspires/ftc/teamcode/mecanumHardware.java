@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import static java.lang.Thread.sleep;
+
 public class mecanumHardware
 {
     // Here we define all of the motors we use.
@@ -22,7 +24,7 @@ public class mecanumHardware
     public Servo servoClaw;
     public Servo servoDrop;
     public CRServo servoTwist;
-
+    public Servo servoLatch;
     public Servo servoDrag;
     public DcMotor motorLift;
 //    public DcMotor rightLift;
@@ -70,6 +72,7 @@ public class mecanumHardware
         servoClaw = hwMap.get(Servo.class, "servoClaw");
         servoTwist = hwMap.get(CRServo.class,"servoTwist");
         servoDrop = hwMap.get(Servo.class, "servoDrop");
+        servoLatch = hwMap.get(Servo.class,"ServoLatch");
 ////        servoLatch.scaleRange(.5,1);
 //        servoLatch.setDirection(Servo.Direction.FORWARD);
 ////        servoClaw.scaleRange(.5,1);
@@ -102,10 +105,12 @@ public class mecanumHardware
 //        motorLiftR.setPower(0);
         motorLift.setPower(0);
 //
-//        servoLatch.setPosition(-0.1);
-//        //servoClaw.setPosition(-.8);
-        //servoTwist.setPosition(1);
-        servoDrag.setPosition(0.1);
+        servoTwist.setPower(0);
+
+        servoLatch.setPosition(0);
+        servoClaw.setPosition(1);
+
+        servoDrag.setPosition(0);
         servoDrop.setPosition(1);
 //        leftLift.setPower(0);
 //        rightLift.setPower(0);

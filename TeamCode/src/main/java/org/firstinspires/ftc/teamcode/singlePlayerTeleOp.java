@@ -69,6 +69,30 @@ public class singlePlayerTeleOp extends OpMode{
             blPower = 0;
         }
 
+        if ((gamepad1.left_stick_y > 0.1 || gamepad1.left_stick_y < -0.1)||(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1))
+        {
+            flPower = gamepad1.left_stick_y * 2;
+            brPower = gamepad1.left_stick_y *2;
+            frPower = gamepad1.left_stick_y *2;
+            blPower = gamepad1.left_stick_y* 2;
+        }
+
+
+        else if ((gamepad1.left_stick_x < -0.2 || gamepad1.left_stick_x > .2) || (gamepad2.left_stick_x <-.02 || gamepad2.left_stick_x > .2))
+        {
+            frPower = gamepad1.left_stick_x * 2;
+            blPower = gamepad1.left_stick_x * 2;
+            flPower = -gamepad1.left_stick_x * 2;
+            brPower = -gamepad1.left_stick_x * 2;
+        }
+        else
+        {
+            flPower = 0;
+            brPower = 0;
+            frPower = 0;
+            blPower = 0;
+        }
+
 //           //rotate
 
         if (true) {
@@ -135,22 +159,22 @@ public class singlePlayerTeleOp extends OpMode{
             brPower = -1;
         }
 //
-        if (gamepad1.x)
+        if (gamepad1.x || gamepad2.x)
         {
             robot.servoClaw.setPosition(1);
         }
-        else if (gamepad1.y)
+        else if (gamepad1.y || gamepad2.y)
         {
             robot.servoClaw.setPosition(0);//claw open
         }
 
-        if (gamepad1.a && gamepad1.b)
+        if ((gamepad1.a && gamepad1.b) || (gamepad2.a && gamepad2.b))
         {
             robot.servoDrop.setPosition(0);
         }
 
 
-        if (gamepad1.left_trigger > .1)
+        if (gamepad1.left_trigger > .1 || gamepad2.left_trigger > .1)
         {
             scalePower = true;
         }
@@ -158,7 +182,7 @@ public class singlePlayerTeleOp extends OpMode{
         {
             scalePower = false;
         }
-        if (gamepad1.right_trigger > .1)
+        if (gamepad1.right_trigger > .1 || gamepad2.left_trigger > .1)
         {
             cornerTurn = true;
         }
@@ -167,7 +191,7 @@ public class singlePlayerTeleOp extends OpMode{
             cornerTurn = false;
         }
         //BringDown hook = new BringDown();
-        if (gamepad1.left_bumper)
+        if (gamepad1.left_bumper || gamepad2.left_bumper)
         {
             robot.servoTwist.setPower(1);
         }

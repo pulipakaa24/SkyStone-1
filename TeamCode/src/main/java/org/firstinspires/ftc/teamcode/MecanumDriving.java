@@ -26,6 +26,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
@@ -72,7 +74,8 @@ public class MecanumDriving extends LinearOpMode {
 
     //VUFORIA STUFF SKYSTONE DETECTION
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final boolean PHONE_IS_PORTRAIT = false;
+    private static final boolean PHONE_IS_PORTRAIT = TRUE;
+
 
     private static final String VUFORIA_KEY =
             "AQU7a8H/////AAABmfH4ZcQHIkPTjsjCf80CSVReJtuQBMiQodPHMSkdFHY8RhKT4fIEcY3JbCWjXRsUBFiewYx5etup17dUnX/SIQx6cjctrioEXrID+gV4tD9B29eCOdFVgyAr+7ZnEHHDYcSnt2pfzDZyMpi+I3IODqbUgVO82UiaZViuZBnA3dNvokZNFwZvv8/YDkcd4LhHv75QdkqgBzKe/TumwxjR/EqtR2fQRy9WnRjNVR9fYGl9MsuGNBSEmmys6GczXn8yZ/k2PKusiYz7h4hFGiXmlVLyikZuB4dxETGoqz+WWYUFJAdHzFiBptg5xXaa86qMBYBi3ht0RUiBKicLJhQZzLG0bIEJZWr198ihexUuhhGV";
@@ -128,15 +131,15 @@ public class MecanumDriving extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        BNO055IMU.Parameters IMUparameters = new BNO055IMU.Parameters();
+        IMUparameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        IMUparameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        IMUparameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        IMUparameters.loggingEnabled = true;
+        IMUparameters.loggingTag = "IMU";
+        IMUparameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        imu.initialize(IMUparameters);
 
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -522,7 +525,7 @@ public class MecanumDriving extends LinearOpMode {
     }
     public float skystoneDetection(int direction) {
 
-        int speedMod = 4;
+        double speedMod = 1.5;
         float moveAmount = 0;
         boolean isFound = false;
 
@@ -560,19 +563,19 @@ public class MecanumDriving extends LinearOpMode {
                 moveAmount += skystoneAlign();
 //                moveAmount += skystoneAlign();
                 sleep(500);
-                mecanumEncoder(1.8, -6, -6, 5, "vertical");
+                mecanumEncoder(.75, -5, -5, 5, "vertical");
                 sleep(500);
                 //robot.servoClaw.setPosition(-1);
                 sleep(500);
-                mecanumEncoder(0.9, 5, 5, 5, "vertical");
+                mecanumEncoder(0.75, 4, 4, 5, "vertical");
 
             } else {
                 isFound = false;
                 telemetry.addData("Visible Target", "none");
                 telemetry.addData("isFound: ", isFound);
                 telemetry.update();
-                mecanumEncoder(0.5, speedMod*direction, speedMod*direction, 1, "lateral");
-                sleep(100);
+                //mecanumEncoder(0.5, speedMod*direction, speedMod*direction, 1, "lateral");
+                sleep(500);
                 moveAmount += speedMod * direction;
             }
 
