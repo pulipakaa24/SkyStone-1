@@ -161,11 +161,11 @@ public class singlePlayerTeleOp extends OpMode{
 //
         if (gamepad1.x || gamepad2.x)
         {
-            robot.servoClaw.setPosition(1);
+            robot.servoClaw.setPosition(.7);
         }
         else if (gamepad1.y || gamepad2.y)
         {
-            robot.servoClaw.setPosition(0);//claw open
+            robot.servoClaw.setPosition(.3);//claw open
         }
 
         if ((gamepad1.a && gamepad1.b) || (gamepad2.a && gamepad2.b))
@@ -194,6 +194,7 @@ public class singlePlayerTeleOp extends OpMode{
         if (gamepad1.left_bumper || gamepad2.left_bumper)
         {
             robot.servoTwist.setPower(1);
+            robot.servoTwist.setPower(0);
         }
 //        else if (gamepad1.right_bumper)
 //        {
@@ -201,6 +202,7 @@ public class singlePlayerTeleOp extends OpMode{
 //        }
         else
             robot.servoTwist.setPower(0);
+            //robot.servoTwist.setPower(0);
 
 
         if (gamepad1.dpad_left)

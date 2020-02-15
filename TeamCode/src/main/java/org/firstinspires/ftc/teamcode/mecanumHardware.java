@@ -108,7 +108,7 @@ public class mecanumHardware
         servoTwist.setPower(0);
 
         servoLatch.setPosition(0);
-        servoClaw.setPosition(1);
+        servoClaw.setPosition(.3);
 
         servoDrag.setPosition(0);
         servoDrop.setPosition(1);
