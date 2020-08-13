@@ -7,7 +7,7 @@ public class Week1Hardware {
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
 
-    public static final double MAX_POWER = 0.99;
+    public static final double MAX_POWER = 1;
 
     HardwareMap hwMap =  null;
 
