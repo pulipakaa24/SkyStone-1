@@ -15,7 +15,7 @@ public class Week1Hardware {
     public DistanceSensor sensorDistance;
     public DigitalChannel digitalTouch;
 
-    public static final double MAX_POWER = 0.99;
+    public static final double MAX_POWER = 1;
 
     HardwareMap hwMap           =  null;
 
