@@ -14,8 +14,8 @@ public class Week1Hardware {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive  = hwMap.get(DcMotor.class, "right_drive");
+        leftDrive  = hwMap.get(DcMotor.class, "motor_l");
+        rightDrive  = hwMap.get(DcMotor.class, "motor_r");
 
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
